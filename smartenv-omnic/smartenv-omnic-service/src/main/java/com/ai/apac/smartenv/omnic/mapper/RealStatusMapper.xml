@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.omnic.mapper.RealStatusMapper">
+
+    <resultMap id="statusCountMap" type="com.ai.apac.smartenv.omnic.entity.StatusCount">
+        <result column="sitBack" property="sitBack"></result>
+        <result column="working" property="working"></result>
+        <result column="alarm" property="alarm"></result>
+        <result column="departure" property="departure"></result>
+    </resultMap>
+
+    <select resultMap="statusCountMap" id="selectAllVehicleDeviceStatusCount" parameterType="java.lang.String">
+        <![CDATA[
+                        select
+                    max(
+                            case vehicleAllInfo.stateStr when 'working' then stateCount else 0 end
+                        ) working,
+                    max(
+                        case vehicleAllInfo.stateStr when 'sitBack' then stateCount  else 0 end
+                        ) siteBack,
+                    max(
+                            case vehicleAllInfo.stateStr when 'departure' then stateCount else 0 end
+                        ) departure,
+                    sum(alarmCount) alarm
+                from (
+
+
+                         select
+                                count(alarmInfo.haveAlarm) alarmCount,
+                                count(vehicle.id) stateCount,
+                                case when schedules.vehicleId is null then 'sitBack'
+                                     when schedules.vehicleId is not null and deviceStatus.VehicleStatus=0 then 'working'
+                                     else 'departure' end stateStr
+
+
+                         FROM ai_vehicle_info vehicle
+                                  left join (
+                             SELECT vehicle.id                    vehicleId,
+
+                                    max(deviceInfo.device_status) VehicleStatus
+                             FROM ai_vehicle_info vehicle
+
+                                      LEFT JOIN ai_device_rel device_rel
+                                                on device_rel.entity_id = vehicle.id and device_rel.entity_type = 2
+                                      LEFT JOIN ai_device_info deviceInfo
+                                                on deviceInfo.id = device_rel.device_id and
+                                                   deviceInfo.entity_category_id = 1227854530373226498
+
+                             where vehicle.tenant_id = #{tenantId,jdbcType=VARCHAR}
+                               and vehicle.is_deleted = 0
+                             group by vehicleId
+                         ) deviceStatus on vehicle.id = deviceStatus.vehicleId
+                                  left join (
+                             SELECT vehicle.id vehicleId
+                             FROM ai_vehicle_info vehicle
+                                      LEFT JOIN ai_schedule_object aso
+                                                ON vehicle.`id` = aso.`entity_id`
+                                                    AND aso.`entity_type` = 1
+                                                    AND aso.schedule_date = CURDATE()
+                                                    AND aso.status = 1
+                                                    AND aso.is_deleted = 0
+                                      LEFT JOIN ai_schedule ais
+                                                ON ais.`id` = aso.`schedule_id`
+                             WHERE vehicle.tenant_id = #{tenantId,jdbcType=VARCHAR}
+                               AND vehicle.is_deleted = 0
+                               AND aso.`id` IS NOT NULL
+                               AND (
+                                     (
+                                             ais.breaks_begin_time IS NULL AND ais.breaks_end_time IS NULL
+                                             AND ais.schedule_begin_time <= CURTIME() AND CURTIME() <= ais.schedule_end_time
+                                         )
+                                     OR (
+                                             ais.breaks_begin_time IS NOT NULL AND ais.breaks_end_time IS NOT NULL
+                                             AND ais.schedule_begin_time <= CURTIME() AND CURTIME() <= ais.schedule_end_time
+                                             AND (CURTIME() < ais.breaks_begin_time OR ais.breaks_end_time > CURTIME())
+                                         )
+                                 )
+                         ) schedules on schedules.vehicleId = vehicle.id
+                                  left join (
+                             SELECT vehicle.id                                           vehicleId,
+                                    case count(alarmInfo.id) when 0 then null else 1 end haveAlarm
+
+
+                             FROM ai_vehicle_info vehicle
+
+                                      LEFT JOIN ai_device_rel device_rel
+                                                on device_rel.entity_id = vehicle.id and device_rel.entity_type = 2
+                                      LEFT JOIN ai_device_info deviceInfo on deviceInfo.id = device_rel.device_id
+                                      left join ai_alarm_info alarmInfo
+                                                on alarmInfo.device_code = deviceInfo.device_code and alarmInfo.is_deleted = 0 and
+                                                   alarmInfo.is_handle = 0
+                             where vehicle.tenant_id = #{tenantId,jdbcType=VARCHAR}
+                               and vehicle.is_deleted = 0
+                             group by vehicle.id
+                         ) alarmInfo on alarmInfo.vehicleId = vehicle.id
+                         where vehicle.tenant_id = #{tenantId,jdbcType=VARCHAR}
+                           and vehicle.is_deleted = 0
+                    group by stateStr
+                     ) vehicleAllInfo
+
+        ]]>
+    </select>
+
+    <select resultType="com.ai.apac.smartenv.omnic.entity.OmnicVehicleInfo" id="selectVehicleByStatus"
+            parameterType="java.util.Map">
+        <![CDATA[
+
+
+select *
+from (
+         select veInfo.*,
+                case
+                    when status.isInworkTime = 0 then 2 -- 休息
+                    when status.isInworkTime = 1 and status.device_status = 0 then 1
+                    else 3 end vehicleStatus
+         from (
+                  select vehicleInfo.id vehicleId,
+                         case -- 排班不跨天
+                             when ais.id = null then 0
+                             when ais.schedule_begin_time < ais.schedule_end_time
+                                 and (
+                                          (now() > ais.schedule_begin_time and now() < ais.breaks_begin_time) or
+                                          (now() > ais.breaks_end_time and now() < ais.schedule_end_time)
+                                      ) then 1
+                             -- 排班跨天 休息时间不跨天并且休息时间在前一天
+                             when ais.schedule_begin_time > ais.schedule_end_time
+                                 and ais.breaks_begin_time < ais.breaks_end_time
+                                 and (
+                                          (now() > ais.schedule_begin_time and now() < ais.breaks_begin_time) or
+                                          (now() > ais.breaks_end_time and now() > ais.schedule_end_time) or
+                                          (now() < ais.schedule_end_time)
+                                      ) then 1
+                             -- 排班跨天 休息时间不跨天并且休息时间在后一天
+                             when ais.schedule_begin_time > ais.schedule_end_time
+                                 and ais.breaks_begin_time < ais.breaks_end_time
+                                 and (
+                                          (now() > ais.schedule_begin_time) or
+                                          (now() < ais.schedule_begin_time and now() < ais.schedule_begin_time) or
+                                          (now() > ais.breaks_end_time and now() < ais.schedule_end_time)
+                                      ) then 1
+                             -- 排班跨天 休息时间跨天
+                             when ais.schedule_begin_time > ais.schedule_end_time
+                                 and ais.breaks_begin_time > ais.breaks_end_time
+                                 and (
+                                          (now() > ais.schedule_begin_time and now() < ais.breaks_begin_time) or
+                                          (now() > ais.breaks_end_time and now() < ais.schedule_end_time)
+                                      ) then 1
+                             else 0
+                             end        isInworkTime,
+                         deviceInfo.device_status
+                  from ai_vehicle_info vehicleInfo
+                           left join ai_device_rel deviceRel on deviceRel.entity_category_id = vehicleInfo.id
+                           left join ai_device_info deviceInfo on deviceInfo.id = deviceRel.entity_id
+                           LEFT JOIN ai_schedule_object aso
+                                     ON vehicleInfo.`id` = aso.`entity_id` AND aso.`entity_type` = 2 and
+                                        aso.schedule_date = curdate()
+                           LEFT JOIN ai_schedule ais ON ais.`id` = aso.`schedule_id`
+                  group by vehicleInfo.id
+              ) status
+                  left join ai_vehicle_info veInfo on veInfo.id = status.vehicleId
+     ) infos
+    where infos.vehicleStatus = #{status,jdbcType=INTEGER}
+          and infos.tenant_id = #{tenantId,jdbcType=VARCHAR}
+
+
+       ]]>
+    </select>
+
+
+    <select id="selectAlarmVehicle" resultType="com.ai.apac.smartenv.omnic.entity.OmnicVehicleInfo"
+            parameterType="java.lang.String">
+        <![CDATA[
+        select veInfo.*
+        from (
+                 SELECT vehicle.id,
+                        count(alarmInfo.id) alarmCount
+                 FROM ai_vehicle_info vehicle
+                          LEFT JOIN ai_device_rel device_rel
+                                    on device_rel.entity_id = vehicle.id and device_rel.entity_type = 2
+                          LEFT JOIN ai_device_info deviceInfo on deviceInfo.id = device_rel.id
+                          LEFT JOIN ai_alarm_info alarmInfo on alarmInfo.device_code = deviceInfo.device_code
+                 where vehicle.tenant_id=#{tenantId,jdbcType=VARCHAR}
+                 group by vehicle.id
+             ) alCount
+            left join ai_vehicle_info veInfo on veInfo.id=alCount.id
+        where alCount.alarmCount > 0
+
+        ]]>
+    </select>
+
+
+    <select resultMap="statusCountMap" id="selectAllPersonDeviceStatusCount" parameterType="java.lang.String">
+        <![CDATA[
+
+
+
+                select
+                    max(
+                            case personAllInfo.stateStr when 'working' then stateCount else 0 end
+                        ) working,
+                    max(
+                        case personAllInfo.stateStr when 'sitBack' then stateCount  else 0 end
+                        ) siteBack,
+                    max(
+                            case personAllInfo.stateStr when 'departure' then stateCount else 0 end
+                        ) departure,
+                    sum(alarmCount) alarm
+                from (
+
+
+                         select
+                                count(alarmInfo.haveAlarm) alarmCount,
+                                count(person.id) stateCount,
+                                case when schedules.vehicleId is null then 'sitBack'
+                                     when schedules.vehicleId is not null and deviceStatus.VehicleStatus=0 then 'working'
+                                     else 'departure' end stateStr
+
+
+                         FROM ai_person person
+                                  left join (
+                             SELECT person.id   personId,
+
+                                    max(deviceInfo.device_status) VehicleStatus
+                             FROM ai_person person
+
+                                      LEFT JOIN ai_device_rel device_rel
+                                                on device_rel.entity_id = person.id and device_rel.entity_type = 2
+                                      LEFT JOIN ai_device_info deviceInfo
+                                                on deviceInfo.id = device_rel.device_id and
+                                                   deviceInfo.entity_category_id = 1227854530373226498
+
+                             where person.tenant_id = #{tenantId,jdbcType=VARCHAR}
+                               and person.is_deleted = 0
+                             group by personId
+                         ) deviceStatus on person.id = deviceStatus.personId
+                                  left join (
+                             SELECT person.id vehicleId
+                             FROM ai_person person
+                                      LEFT JOIN ai_schedule_object aso
+                                                ON person.`id` = aso.`entity_id`
+                                                    AND aso.`entity_type` = 1
+                                                    AND aso.schedule_date = CURDATE()
+                                                    AND aso.status = 1
+                                                    AND aso.is_deleted = 0
+                                      LEFT JOIN ai_schedule ais
+                                                ON ais.`id` = aso.`schedule_id`
+                             WHERE person.tenant_id = #{tenantId,jdbcType=VARCHAR}
+                               AND person.is_deleted = 0
+                               AND aso.`id` IS NOT NULL
+                               AND (
+                                     (
+                                             ais.breaks_begin_time IS NULL AND ais.breaks_end_time IS NULL
+                                             AND ais.schedule_begin_time <= CURTIME() AND CURTIME() <= ais.schedule_end_time
+                                         )
+                                     OR (
+                                             ais.breaks_begin_time IS NOT NULL AND ais.breaks_end_time IS NOT NULL
+                                             AND ais.schedule_begin_time <= CURTIME() AND CURTIME() <= ais.schedule_end_time
+                                             AND (CURTIME() < ais.breaks_begin_time OR ais.breaks_end_time > CURTIME())
+                                         )
+                                 )
+                         ) schedules on schedules.vehicleId = person.id
+                                  left join (
+                             SELECT person.id                                           vehicleId,
+                                    case count(alarmInfo.id) when 0 then null else 1 end haveAlarm
+
+
+                             FROM ai_person person
+
+                                      LEFT JOIN ai_device_rel device_rel
+                                                on device_rel.entity_id = person.id and device_rel.entity_type = 2
+                                      LEFT JOIN ai_device_info deviceInfo on deviceInfo.id = device_rel.device_id
+                                      left join ai_alarm_info alarmInfo
+                                                on alarmInfo.device_code = deviceInfo.device_code and alarmInfo.is_deleted = 0 and
+                                                   alarmInfo.is_handle = 0
+                             where person.tenant_id = #{tenantId,jdbcType=VARCHAR}
+                               and person.is_deleted = 0
+                             group by person.id
+                         ) alarmInfo on alarmInfo.vehicleId = person.id
+                         where person.tenant_id = #{tenantId,jdbcType=VARCHAR}
+                           and person.is_deleted = 0
+                    group by stateStr
+                     ) personAllInfo
+        ]]>
+    </select>
+
+    <select resultType="com.ai.apac.smartenv.omnic.entity.OmnicPersonInfo" id="selectPersonByStatus"
+            parameterType="java.util.Map">
+        <![CDATA[
+
+
+select *
+from (
+         select veInfo.*,
+                case
+                    when status.isInworkTime = 0 then 2 -- 休息
+                    when status.isInworkTime = 1 and status.device_status = 0 then 1
+                    else 3 end vehicleStatus
+         from (
+                  select vehicleInfo.id vehicleId,
+                         case -- 排班不跨天
+                             when ais.id = null then 0
+                             when ais.schedule_begin_time < ais.schedule_end_time
+                                 and (
+                                          (now() > ais.schedule_begin_time and now() < ais.breaks_begin_time) or
+                                          (now() > ais.breaks_end_time and now() < ais.schedule_end_time)
+                                      ) then 1
+                             -- 排班跨天 休息时间不跨天并且休息时间在前一天
+                             when ais.schedule_begin_time > ais.schedule_end_time
+                                 and ais.breaks_begin_time < ais.breaks_end_time
+                                 and (
+                                          (now() > ais.schedule_begin_time and now() < ais.breaks_begin_time) or
+                                          (now() > ais.breaks_end_time and now() > ais.schedule_end_time) or
+                                          (now() < ais.schedule_end_time)
+                                      ) then 1
+                             -- 排班跨天 休息时间不跨天并且休息时间在后一天
+                             when ais.schedule_begin_time > ais.schedule_end_time
+                                 and ais.breaks_begin_time < ais.breaks_end_time
+                                 and (
+                                          (now() > ais.schedule_begin_time) or
+                                          (now() < ais.schedule_begin_time and now() < ais.schedule_begin_time) or
+                                          (now() > ais.breaks_end_time and now() < ais.schedule_end_time)
+                                      ) then 1
+                             -- 排班跨天 休息时间跨天
+                             when ais.schedule_begin_time > ais.schedule_end_time
+                                 and ais.breaks_begin_time > ais.breaks_end_time
+                                 and (
+                                          (now() > ais.schedule_begin_time and now() < ais.breaks_begin_time) or
+                                          (now() > ais.breaks_end_time and now() < ais.schedule_end_time)
+                                      ) then 1
+                             else 0
+                             end        isInworkTime,
+                         deviceInfo.device_status
+                  from ai_person vehicleInfo
+                           left join ai_device_rel deviceRel on deviceRel.entity_category_id = vehicleInfo.id
+                           left join ai_device_info deviceInfo on deviceInfo.id = deviceRel.entity_id
+                           LEFT JOIN ai_schedule_object aso
+                                     ON vehicleInfo.`id` = aso.`entity_id` AND aso.`entity_type` = 1 and
+                                        aso.schedule_date = curdate()
+                           LEFT JOIN ai_schedule ais ON ais.`id` = aso.`schedule_id`
+                  group by vehicleInfo.id
+              ) status
+                  left join ai_person veInfo on veInfo.id = status.vehicleId
+     ) infos
+    where infos.vehicleStatus = #{status,jdbcType=INTEGER}
+          and infos.tenant_id = #{tenantId,jdbcType=VARCHAR}
+
+
+       ]]>
+    </select>
+
+
+    <select id="selectAlarmPerson" resultType="com.ai.apac.smartenv.omnic.entity.OmnicPersonInfo"
+            parameterType="java.lang.String">
+        <![CDATA[
+        select veInfo.*
+        from (
+                 SELECT vehicle.id,
+                        count(alarmInfo.id) alarmCount
+                 FROM ai_person vehicle
+                          LEFT JOIN ai_device_rel device_rel
+                                    on device_rel.entity_id = vehicle.id and device_rel.entity_type = 1
+                          LEFT JOIN ai_device_info deviceInfo on deviceInfo.id = device_rel.id
+                          LEFT JOIN ai_alarm_info alarmInfo on alarmInfo.device_code = deviceInfo.device_code
+                 where vehicle.tenant_id=#{tenantId,jdbcType=VARCHAR}
+                 group by vehicle.id
+             ) alCount
+            left join ai_person veInfo on veInfo.id=alCount.id
+        where alCount.alarmCount > 0
+
+        ]]>
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

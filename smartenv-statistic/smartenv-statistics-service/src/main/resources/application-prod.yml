@@ -1,0 +1,11 @@
+#服务器端口
+server:
+  port: 8104
+
+#数据源配置
+spring:
+  datasource:
+    url: ${blade.datasource.statistics.prod.url}
+    username: ${blade.datasource.statistics.prod.username}
+    password: ${blade.datasource.statistics.prod.password}
+

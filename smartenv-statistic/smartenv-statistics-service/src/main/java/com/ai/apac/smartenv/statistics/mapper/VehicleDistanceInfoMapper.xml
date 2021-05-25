@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.statistics.mapper.VehicleDistanceInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="vehicleDistanceInfoResultMap" type="com.ai.apac.smartenv.statistics.entity.VehicleDistanceInfo">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="vehicle_id" property="vehicleId"/>
+        <result column="plate_number" property="plateNumber"/>
+        <result column="workarea_id" property="workareaId"/>
+        <result column="vehicle_worktype" property="vehicleWorktype"/>
+        <result column="real_distance" property="realDistance"/>
+        <result column="workarea_width" property="workareaWidth"/>
+        <result column="workarea_length" property="workareaLength"/>
+        <result column="workarea_level" property="workareaLevel"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="stat_date" property="statDate"/>
+    </resultMap>
+
+
+    <select id="selectVehicleDistanceInfoPage" resultMap="vehicleDistanceInfoResultMap">
+        select * from bi_vehicle_distance_info where is_deleted = 0
+    </select>
+
+</mapper>

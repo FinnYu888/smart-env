@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.device.mapper.DeviceRelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="deviceRelResultMap" type="com.ai.apac.smartenv.device.entity.DeviceRel">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="device_id" property="deviceId"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="entity_type" property="entityType"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+    </resultMap>
+
+
+    <select id="selectDeviceRelPage" resultMap="deviceRelResultMap">
+        select * from ai_device_rel where is_deleted = 0
+    </select>
+
+    <select id="listForBinding" resultMap="deviceRelResultMap">
+        select a.id as device_id, b.entity_id from ai_device_info a
+        left join ( select device_id, entity_id from ai_device_rel where is_deleted = 0
+        and entity_id = #{param4} ) b on a.id = b.device_id
+        where a.is_deleted = 0
+        <if test="param1.deviceName != null and param1.deviceName != '' ">
+            and a.device_name = #{param1.deviceName}
+        </if>
+        order by b.entity_id desc, a.id asc
+        <if test="param2 > 0 and param3 > 0">
+            limit #{param2}, #{param3};
+        </if>
+    </select>
+
+    <select id="getEntityRelsByCategory" resultMap="deviceRelResultMap" parameterType="java.util.Map">
+        SELECT DISTINCT entity_id FROM ai_device_rel WHERE IS_DELETED = 0
+          AND TENANT_ID = #{tenantId} AND device_id IN
+            (SELECT id FROM ai_device_info WHERE 1 = 1 
+               <if test="categoryId != null ">
+                    AND entity_category_id = #{categoryId}
+               </if>
+               <if test="deviceStatus != null ">
+                    AND device_status = #{deviceStatus}
+               </if>
+                AND IS_DELETED = 0
+                AND TENANT_ID = #{tenantId})
+    </select>
+
+    <select id="listForEntityAndTime" resultMap="deviceRelResultMap" parameterType="java.util.Map">
+
+        select drel.* from ai_device_rel drel
+        left join ai_device_info deviceInfo on drel.device_id=deviceInfo.id
+        where
+        deviceInfo.entity_category_id = #{entityCategoryId}
+        and drel.entity_id=#{entityId}
+        and drel.entity_type=#{entityType}
+        <if test="startTime != null ">
+            and drel.create_time > #{startTime}
+        </if>
+
+        <if test="endTime != null ">
+            <![CDATA[
+                and drel.create_time < #{endTime}
+                ]]>
+        </if>
+    </select>
+
+    <select id="listEntityIdListByParam" resultMap="deviceRelResultMap" parameterType="java.util.Map">
+
+        select drel.* from ai_device_rel drel
+        left join ai_device_info deviceInfo on drel.device_id=deviceInfo.id
+        where
+        deviceInfo.entity_category_id = #{entityCategoryId}
+        and drel.entity_id=#{entityId}
+        and drel.entity_type=#{entityType}
+        <if test="startTime != null ">
+            and drel.create_time > #{startTime}
+        </if>
+
+        <if test="endTime != null ">
+            <![CDATA[
+                and drel.create_time < #{endTime}
+                ]]>
+        </if>
+    </select>
+
+
+    <select id="getModifyList" resultMap="deviceRelResultMap" parameterType="java.util.Map">
+            <![CDATA[
+                    select drel.* from ai_device_rel drel
+                          left join ai_device_info deviceInfo on drel.device_id=deviceInfo.id
+                          where deviceInfo.entity_category_id=#{entityCategoryId}
+                          and drel.entity_id=#{entityId}
+                          and drel.entity_type=#{entityType}
+                          and drel.create_time < #{startTime} order by create_time desc
+                 ]]>
+    </select>
+
+
+</mapper>

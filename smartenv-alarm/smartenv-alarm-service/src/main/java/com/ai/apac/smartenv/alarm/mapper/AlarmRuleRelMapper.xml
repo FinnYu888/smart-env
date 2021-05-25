@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.alarm.mapper.AlarmRuleRelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="alarmRuleRelResultMap" type="com.ai.apac.smartenv.alarm.entity.AlarmRuleRel">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="alarm_rule_id" property="alarmRuleId"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="entity_type" property="entityType"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+    </resultMap>
+
+
+    <select id="selectAlarmRuleRelPage" resultMap="alarmRuleRelResultMap">
+        select * from ai_alarm_rule_rel where is_deleted = 0
+    </select>
+
+	<select id="listForBinding" resultMap="alarmRuleRelResultMap">
+        select a.id as alarm_rule_id, b.entity_id from ai_alarm_rule_info a 
+			left join ( select alarm_rule_id, entity_id from ai_alarm_rule_rel where is_deleted = 0
+				and entity_id = #{param4}) b on a.id = b.alarm_rule_id 
+			where a.is_deleted = 0
+		<if test="param1.name != null and param1.name != '' ">
+			and a.name = #{param1.name}
+	    </if >
+			order by b.entity_id desc, a.id asc 
+		<if test="param2 > 0 and param3 > 0">
+			limit #{param2}, #{param3};
+	    </if >
+    </select>
+</mapper>

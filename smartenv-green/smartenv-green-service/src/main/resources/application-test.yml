@@ -1,0 +1,13 @@
+#服务器端口
+server:
+  port: 8125
+
+#数据源配置
+spring:
+  datasource:
+    url: ${blade.datasource.test.url}
+    username: ${blade.datasource.test.username}
+    password: ${blade.datasource.test.password}
+    initialSize: ${blade.datasource.test.initialSize}
+    minIdle: ${blade.datasource.test.minIdle}
+    maxActive: ${blade.datasource.test.maxActive}

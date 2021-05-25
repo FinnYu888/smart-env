@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.core.log.mapper.LogApiMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="logResultMap" type="org.springblade.core.log.model.LogApi">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="service_id" property="serviceId"/>
+        <result column="server_host" property="serverHost"/>
+        <result column="server_ip" property="serverIp"/>
+        <result column="env" property="env"/>
+        <result column="type" property="type"/>
+        <result column="title" property="title"/>
+        <result column="method" property="method"/>
+        <result column="request_uri" property="requestUri"/>
+        <result column="user_agent" property="userAgent"/>
+        <result column="remote_ip" property="remoteIp"/>
+        <result column="method_class" property="methodClass"/>
+        <result column="method_name" property="methodName"/>
+        <result column="params" property="params"/>
+        <result column="time" property="time"/>
+        <result column="create_by" property="createBy"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        select id,
+        create_time AS createTime,
+        service_id, server_host, server_ip, env, type, title, method, request_uri, user_agent, remote_ip, method_class, method_name, params, time, create_by
+    </sql>
+
+    <select id="listLogApiByCondition" resultType="org.springblade.core.log.model.LogApi">
+        select * from blade_log_api a
+        inner join (
+        select api.id from blade_log_api api
+        where 1=1
+        <if test="query.serverIp != null and query.serverIp != ''">
+            and api.server_ip <![CDATA[ = ]]> #{query.serverIp}
+        </if>
+        <if test="query.createBy != null and query.createBy != ''">
+            and api.create_by <![CDATA[ = ]]> #{query.createBy}
+        </if>
+        <if test="query.tenantId != null and query.tenantId != ''">
+            and api.tenant_id <![CDATA[ = ]]> #{query.tenantId}
+        </if>
+        <if test="query.startTime != null">
+            and api.create_time <![CDATA[ >= ]]> FROM_UNIXTIME(#{query.startTime}/1000, '%Y-%m-%d %H:%i:%s')
+        </if>
+        <if test="query.endTime != null">
+            and api.create_time <![CDATA[ <= ]]> FROM_UNIXTIME(#{query.endTime}/1000, '%Y-%m-%d %H:%i:%s')
+        </if>
+        order by api.create_time desc
+        <if test="query.current != null and query.size != null">
+            limit #{query.current}, #{query.size}
+        </if>
+        ) as b
+        on a.id = b.id;
+    </select>
+
+    <select id="countLogApiByCondition" resultType="java.lang.Integer">
+        select count(1) from blade_log_api api
+        where 1=1
+        <if test="query.serverIp != null and query.serverIp != ''">
+            and api.server_ip <![CDATA[ = ]]> #{query.serverIp}
+        </if>
+        <if test="query.createBy != null and query.createBy != ''">
+            and api.create_by <![CDATA[ = ]]> #{query.createBy}
+        </if>
+        <if test="query.tenantId != null and query.tenantId != ''">
+            and api.tenant_id <![CDATA[ = ]]> #{query.tenantId}
+        </if>
+        <if test="query.startTime != null">
+            and api.create_time <![CDATA[ >= ]]> FROM_UNIXTIME(#{query.startTime}/1000, '%Y-%m-%d %H:%i:%s')
+        </if>
+        <if test="query.endTime != null">
+            and api.create_time <![CDATA[ <= ]]> FROM_UNIXTIME(#{query.endTime}/1000, '%Y-%m-%d %H:%i:%s')
+        </if>
+    </select>
+
+</mapper>

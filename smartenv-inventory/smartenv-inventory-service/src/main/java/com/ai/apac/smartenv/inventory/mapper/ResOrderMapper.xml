@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.inventory.mapper.ResOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resOrderResultMap" type="com.ai.apac.smartenv.inventory.entity.ResOrder">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="status" property="status"/>
+        <result column="cust_id" property="custId"/>
+        <result column="cust_name" property="custName"/>
+        <result column="business_type" property="businessType"/>
+        <result column="workflow_id" property="workflowId"/>
+        <result column="description" property="description"/>
+        <result column="order_status" property="orderStatus"/>
+    </resultMap>
+
+
+    <select id="selectResOrderPage" resultMap="resOrderResultMap">
+        select * from ai_res_order where is_deleted = 0
+    </select>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="listApplyOrderPageMap" type="com.ai.apac.smartenv.inventory.vo.ResApplyQueryResponseVO">
+        <id column="id" property="id"/>
+
+        <result column="create_time" property="createTime"/>
+
+        <result column="cust_id" property="custId"/>
+        <result column="cust_name" property="custName"/>
+        <result column="business_type" property="businessType"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="amount" property="amount"/>
+    </resultMap>
+
+
+    <select id="listApplyOrderPage" resultMap="listApplyOrderPageMap">
+        SELECT DISTINCT res.* ,SUM(dtl.amount) amount FROM ai_res_order res LEFT JOIN ai_res_order_dtl dtl  ON res.ID = dtl.order_id and dtl.is_deleted = 0
+        <where>
+            ${ew.sqlSegment}
+        </where>
+        group by dtl.order_id
+    </select>
+</mapper>

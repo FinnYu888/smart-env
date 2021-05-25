@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Eventinfo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2887cbca-d192-44b5-b8be-d091f0882086">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="336"/>
+	<parameter name="EVENT" class="java.lang.String"/>
+	<parameter name="ADDRESS" class="java.lang.String"/>
+	<parameter name="EVENT_DESC" class="java.lang.String"/>
+	<parameter name="DATE" class="java.lang.String"/>
+	<parameter name="TITLE" class="java.lang.String">
+		<parameterDescription><![CDATA[标题]]></parameterDescription>
+	</parameter>
+	<field name="image1" class="java.io.InputStream"/>
+	<field name="image2" class="java.io.InputStream"/>
+	<field name="image3" class="java.io.InputStream"/>
+	<field name="image4" class="java.io.InputStream"/>
+	<field name="image5" class="java.io.InputStream"/>
+	<field name="image6" class="java.io.InputStream"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="180" y="40" width="150" height="35" uuid="a4c8d920-48ac-4692-998a-eb4ecbf88053"/>
+				<textElement>
+					<font fontName="simsun-pdf" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TITLE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="484" splitType="Stretch">
+			<staticText>
+				<reportElement x="30" y="10" width="100" height="20" uuid="b7e94b52-e5e7-4965-b6f7-a7785ad62342"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<text><![CDATA[事件：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="80" width="100" height="20" uuid="beb32ede-b5d8-4c09-9aa0-8d7b30b24ff2"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<text><![CDATA[地点：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="120" width="100" height="20" uuid="f6280e27-7c41-49ae-973a-fa98d3f6b507"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<text><![CDATA[事件描述：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="230" width="100" height="20" uuid="10770fe2-f3da-4fe6-bb0a-e90efe838147"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<text><![CDATA[整改前：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="360" width="100" height="20" uuid="bc0479f3-f15d-4bf8-9bed-1dcf3ccb9df9"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<text><![CDATA[整改后：]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="144" y="80" width="416" height="20" uuid="f337de0c-be36-40c0-922d-be6a33ddafa4"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="142" y="120" width="421" height="101" uuid="fd9cdcf8-3dc1-4738-9add-bf76274399e3"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EVENT_DESC}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="139" y="10" width="416" height="20" uuid="b4ce99df-1c40-46b7-8e23-a8ce34252894"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EVENT}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Blank">
+				<reportElement x="40" y="260" width="163" height="93" uuid="97bc4f7d-a53b-4630-a17d-15278598cad7"/>
+				<imageExpression><![CDATA[$F{image1}]]></imageExpression>
+			</image>
+			<image onErrorType="Blank">
+				<reportElement x="210" y="260" width="158" height="93" uuid="6f3de5e9-292d-41a1-8f49-c03d820c5b23"/>
+				<imageExpression><![CDATA[$F{image2}]]></imageExpression>
+			</image>
+			<image onErrorType="Blank">
+				<reportElement x="39" y="390" width="163" height="94" uuid="043cc51f-c8a2-45e7-9c67-f309321b25c7"/>
+				<imageExpression><![CDATA[$F{image3}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="220" y="390" width="157" height="94" uuid="159b28cd-6525-4e14-ad36-7be91307aa18"/>
+				<imageExpression><![CDATA[$F{image4}]]></imageExpression>
+			</image>
+			<image onErrorType="Blank">
+				<reportElement x="400" y="261" width="144" height="90" uuid="23e87e0c-c988-4ee2-9d36-e13edb81cb5d"/>
+				<imageExpression><![CDATA[$F{image5}]]></imageExpression>
+			</image>
+			<image onErrorType="Blank">
+				<reportElement x="400" y="390" width="144" height="94" uuid="165b7a5d-99b2-4e59-a53e-07a634c371cd"/>
+				<imageExpression><![CDATA[$F{image6}]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="140" y="40" width="415" height="21" uuid="b155a4d7-a2a4-47a1-b8ff-9a2237d9c041"/>
+				<textElement>
+					<font fontName="simsun-pdf" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="40" width="100" height="21" uuid="d5da7c12-aceb-42a3-af90-674665e85447"/>
+				<text><![CDATA[上报时间：]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="84" splitType="Stretch"/>
+	</summary>
+</jasperReport>

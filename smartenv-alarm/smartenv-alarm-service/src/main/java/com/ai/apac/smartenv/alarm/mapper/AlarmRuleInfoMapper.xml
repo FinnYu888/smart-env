@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.alarm.mapper.AlarmRuleInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="alarmRuleInfoResultMap" type="com.ai.apac.smartenv.alarm.entity.AlarmRuleInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="name" property="name"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="entity_category_code" property="entityCategoryCode"/>
+        <result column="alarm_level" property="alarmLevel"/>
+        <result column="alarm_scope" property="alarmScope"/>
+        <result column="inform_type" property="informType"/>
+        <result column="inform_template" property="informTemplate"/>
+        <result column="alarm_start_time" property="alarmStartTime"/>
+        <result column="alarm_end_time" property="alarmEndTime"/>
+        <result column="inform_frequency" property="informFrequency"/>
+        <result column="cc_to_leader" property="ccToLeader"/>
+        <result column="cc_to_leader_inform_type" property="ccToLeaderInformType"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+
+    <select id="selectAlarmRuleInfoPage" resultMap="alarmRuleInfoResultMap">
+        select * from ai_alarm_rule_info where is_deleted = 0
+    </select>
+
+</mapper>

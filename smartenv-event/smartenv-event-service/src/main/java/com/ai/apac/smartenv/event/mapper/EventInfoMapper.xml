@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.event.mapper.EventInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="eventInfoResultMap" type="com.ai.apac.smartenv.event.entity.EventInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="event_type" property="eventType"/>
+        <result column="evevt_inspect_type" property="eventInspectType"/>
+        <result column="event_level" property="eventLevel"/>
+        <result column="workarea_id" property="workareaId"/>
+        <result column="event_address" property="eventAddress"/>
+        <result column="report_person_id" property="reportPersonId"/>
+        <result column="report_person_name" property="reportPersonName"/>
+        <result column="handle_person_id" property="handlePersonId"/>
+        <result column="handle_person_name" property="handlePersonName"/>
+        <result column="event_desc" property="eventDesc"/>
+        <result column="handle_advice" property="handleAdvice"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitudinal" property="latitudinal"/>
+        <result column="belong_area" property="belongArea"/>
+        <result column="ext1" property="ext1"/>
+        <result column="belong_area_name" property="belongAreaName"/>
+    </resultMap>
+
+
+    <select id="selectEventInfoPage" resultMap="eventInfoResultMap">
+        select * from ai_event_info where is_deleted = 0 order by create_time desc
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="countEventGroupByTypeResultMap" type="com.ai.apac.smartenv.event.vo.EventTypeCountVO">
+
+        <result column="event_type" property="eventType"/>
+        <result column="event_type_count" property="eventTypeCount"/>
+    </resultMap>
+
+    <select id="countEventGroupByType" resultMap="countEventGroupByTypeResultMap" parameterType="java.util.Map">
+        SELECT
+        event_type,
+        COUNT(event_type) AS event_type_count
+        FROM
+        `ai_event_info`
+        WHERE IS_DELETED = 0
+        <if test="createTime != null ">
+            and create_time >= #{createTime}
+        </if >
+        <if test="tenantId != null ">
+            and tenant_id = #{tenantId}
+        </if >
+        GROUP BY event_type;
+    </select>
+
+</mapper>

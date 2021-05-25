@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.statistics.mapper.RptVehicleStayMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="rptVehicleStayResultMap" type="com.ai.apac.smartenv.statistics.entity.RptVehicleStay">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="date" property="date"/>
+        <result column="month" property="month"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="alarm_id" property="alarmId"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="duration" property="duration"/>
+    </resultMap>
+
+
+    <select id="selectRptVehicleStayPage" resultMap="rptVehicleStayResultMap">
+        select * from ai_rpt_vehicle_stay where is_deleted = 0
+    </select>
+
+</mapper>

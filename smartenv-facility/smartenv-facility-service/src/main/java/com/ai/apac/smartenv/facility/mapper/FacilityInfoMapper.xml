@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.facility.mapper.FacilityInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="facilityInfoResultMap" type="com.ai.apac.smartenv.facility.vo.FacilityInfoVO">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="FACILITY_NAME" property="facilityName"/>
+        <result column="FACILITY_TYPE" property="facilityType"/>
+        <result column="LNG" property="lng"/>
+        <result column="LAT" property="lat"/>
+        <result column="LOCATION" property="location"/>
+        <result column="PHONE" property="phone"/>
+        <result column="COMPANY_CODE" property="companyCode"/>
+        <result column="DIRECTOR" property="director"/>
+        <result column="EXT1" property="ext1"/>
+        <result column="EXT2" property="ext2"/>
+        <result column="EXT3" property="ext3"/>
+        <result column="FACILTY_VOLUME" property="faciltyVolume"/>
+        <result column="FACILTY_AREA" property="faciltyArea"/>
+        <result column="FACILTY_USE_DATE" property="faciltyUseDate"/>
+        <result column="FACILTY_GPB" property="faciltyGpb"/>
+        <result column="PROJECT_NO" property="projectNo"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="DONE_DATE" property="doneDate"/>
+        <result column="DONE_CODE" property="doneCode"/>
+        <result column="OP_ID" property="opId"/>
+        <result column="ORG_ID" property="orgId"/>
+        <result column="STATUS" property="status"/>
+        <result column="GARBAGE_WEIGHT" property="garbageWeight"/>
+        <result column="TREANSFER_TIMES" property="transferTimes"/>
+    </resultMap>
+
+
+
+    <select id="selectFacilityInfoPage" resultMap="facilityInfoResultMap">
+        select * from ai_facility_info where is_deleted = 0
+    </select>
+    <select id="selectTranstationTotalList" parameterType="java.util.Map" resultMap="facilityInfoResultMap">
+        SELECT  * FROM  ai_facility_info info  LEFT JOIN
+    (SELECT
+      a.FACILITY_ID,
+      SUM(a.GARBAGE_WEIGHT) AS GARBAGE_WEIGHT,
+      SUM(a.TRANSFER_TIMES) TREANSFER_TIMES
+    FROM
+      ai_facility_transtation_detail a
+    WHERE a.TRANSFER_TIME >= CURRENT_DATE GROUP BY a.FACILITY_ID) detail
+ON info.id = detail.facility_id
+        <where>
+            ${ew.sqlSegment}
+        </where>
+ <!--WHERE info.is_deleted = 0
+
+        <if test= 'companyCode != null'>    AND company_Code=#{companyCode} </if>
+        <if test= 'facilityName != null'>    AND FACILITY_NAME like '%${facilityName}%'</if>
+        <if test= 'status != null'>    AND STATUS=#{status} </if>
+        <if test ='statusFlag == true'> AND status not in ('2','3')</if>
+        <if test= 'current != null and size != null'> limit #{current},#{size} </if>-->
+    </select>
+</mapper>

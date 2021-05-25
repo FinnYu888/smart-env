@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Attendance_line" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="1ecd44da-c453-4b78-beac-54f74b279a39">
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="image1" class="java.io.InputStream"/>
+	<field name="image2" class="java.io.InputStream"/>
+	<field name="image1Detail" class="java.lang.String"/>
+	<field name="image2Detail" class="java.lang.String"/>
+	<field name="image1Title" class="java.lang.String"/>
+	<field name="image2Title" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="140" y="24" width="100" height="30" uuid="85db9404-fa9c-43a5-b646-94ac279aa2d3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[每日作业-]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="250" y="24" width="140" height="30" uuid="2e8b6cf4-2953-4aba-9d38-7524bd50294a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "entityName" )]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="524" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="100" height="20" uuid="9a9e1600-1f42-4de2-945f-c9caf400ff4b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_entity_name" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="10" width="200" height="20" uuid="280ec1dc-2764-48d9-bac8-e78c3e8b4958"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "entityName" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="70" width="100" height="20" uuid="36bb6a20-67fe-42d1-bfac-bd50d2f1add3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_schedule_name" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="70" width="200" height="20" uuid="0d2ac0b7-8edc-4c1d-b195-996c010d9fca"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "schedule" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="100" width="210" height="20" uuid="e4a48de7-e801-470d-b6dd-e9f33add458a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_work_real" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="120" width="80" height="20" uuid="a2fa4d4d-cd6a-4c23-a2a5-5d395f7dd5cc"/>
+				<textElement>
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_workarea_start" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="120" width="340" height="20" uuid="9e6be680-da7b-454b-bfc8-70f163adb894"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "workarea_start" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="150" width="80" height="20" uuid="ff40bcff-84de-4ad4-91ea-accd9e8728b8"/>
+				<textElement>
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_workarea_pathway" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="150" width="340" height="60" uuid="8d528c78-aa6a-4caf-b341-84089301b2b1"/>
+				<textElement>
+					<font fontName="宋体"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "work_area_pathway" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="230" width="80" height="20" uuid="37f778f3-15ef-466d-b75c-f6ef8c5eea60"/>
+				<textElement>
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_workarea_end" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="230" width="340" height="20" uuid="878dd566-1daa-4e51-a9e8-cef948dabe43"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "workarea_end" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="270" width="140" height="20" uuid="fb3dde95-e8f5-42eb-a05f-85f8c72e7b04"/>
+				<textElement>
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_line_image" )]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="30" y="300" width="190" height="170" uuid="6bb18a64-6646-45e0-8efa-dc131ad0648b"/>
+				<imageExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "line_image_1" )]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="5" y="480" width="340" height="30" uuid="6a2a0632-f481-462a-9fdf-e66b9b0d12a9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_work_image" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="10" width="160" height="20" uuid="98e6903d-1a4f-444a-9eb2-4425685654d7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "position" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="10" width="62" height="20" uuid="4be5a45e-ecca-49b5-b3d2-ec8bd28714e9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_position_name" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="100" height="20" uuid="8f76098c-e38a-498b-b668-8400092e5945"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_dept_name" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="40" width="200" height="20" uuid="cfee871a-dae1-4821-bd50-0b4d3ba1056f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "dept" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="40" width="162" height="20" uuid="4b9f7b21-0fb2-42dc-9833-fe98dcc6b75c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "day" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="40" width="62" height="20" uuid="8af7514d-0529-4d42-9267-7a7522583733"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "title_day" )]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="197" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Left" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="40" y="30" width="200" height="140" uuid="e2677cc7-00d2-4489-ba1e-9a6f5bb7555b"/>
+				<imageExpression><![CDATA[$F{image1}]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame" hAlign="Left" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="260" y="28" width="200" height="140" uuid="4543e546-6132-4b75-a9d3-e7e87f4e789d"/>
+				<graphicElement fill="Solid"/>
+				<imageExpression><![CDATA[$F{image2}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="40" y="170" width="170" height="20" uuid="266c6b4e-1332-4b3c-82fe-8ffa240da8f5"/>
+				<textElement>
+					<font fontName="宋体"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{image1Detail}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="169" width="145" height="20" uuid="592e1f00-c7ad-4790-a48f-447feb82c937"/>
+				<textElement>
+					<font fontName="宋体"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{image2Detail}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="10" width="170" height="20" uuid="d517d8e2-21c3-4d93-ad61-d7da36621076"/>
+				<textElement>
+					<font fontName="宋体"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{image1Title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="8" width="145" height="20" uuid="01a2ee06-0e52-49da-82a8-a38c40ef39c1"/>
+				<textElement>
+					<font fontName="宋体"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{image2Title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.person.mapper.PersonJobNumberMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="personJobNumberResultMap" type="com.ai.apac.smartenv.person.entity.PersonJobNumber">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="current_number" property="currentNumber"/>
+        <result column="figures" property="figures"/>
+        <result column="prefix" property="prefix"/>
+    </resultMap>
+
+
+    <select id="selectPersonJobNumberPage" resultMap="personJobNumberResultMap">
+        select * from ai_person_job_number where is_deleted = 0
+    </select>
+
+	<update id="updateNextNumber">
+	    update ai_person_job_number set current_number = current_number + 1 where tenant_id = #{tenantId} and is_deleted = 0
+	</update>
+	
+</mapper>

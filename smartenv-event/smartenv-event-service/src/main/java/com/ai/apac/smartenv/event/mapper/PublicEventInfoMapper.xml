@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.event.mapper.PublicEventInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="eventInfoResultMap" type="com.ai.apac.smartenv.event.entity.PublicEventInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="event_type" property="eventType"/>
+        <result column="workarea_id" property="workareaId"/>
+        <result column="event_address" property="eventAddress"/>
+        <result column="report_person_id" property="reportPersonId"/>
+        <result column="report_person_name" property="reportPersonName"/>
+        <result column="handle_person_id" property="handlePersonId"/>
+        <result column="handle_person_name" property="handlePersonName"/>
+        <result column="event_desc" property="eventDesc"/>
+        <result column="handle_advice" property="handleAdvice"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitudinal" property="latitudinal"/>
+        <result column="belong_area" property="belongArea"/>
+        <result column="belong_area_name" property="belongAreaName"/>
+        <result column="city_id" property="cityId"/>
+        <result column="city_name" property="cityName"/>
+    </resultMap>
+
+
+
+</mapper>

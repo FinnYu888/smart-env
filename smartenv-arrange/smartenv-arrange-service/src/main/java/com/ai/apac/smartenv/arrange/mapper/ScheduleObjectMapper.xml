@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.arrange.mapper.ScheduleObjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="scheduleObjectResultMap" type="com.ai.apac.smartenv.arrange.entity.ScheduleObject">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="schedule_id" property="scheduleId"/>
+        <result column="entity_type" property="entityType"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="schedule_date" property="scheduleDate"/>
+        <result column="schedule_begin_date" property="scheduleBeginDate"/>
+        <result column="schedule_end_date" property="scheduleEndDate"/>
+        <result column="temporary" property="temporary"/>
+    </resultMap>
+
+    <select id="selectScheduleObjectPage" resultMap="scheduleObjectResultMap">
+        select * from ai_schedule_object where is_deleted = 0
+    </select>
+
+    <select id="getByIdWithDel" resultMap="scheduleObjectResultMap">
+        select * from ai_schedule_object where id = #{param1}
+    </select>
+    
+    <select id="countByDate" resultType="java.lang.Integer">
+        SELECT count(1) from (
+	        SELECT entity_id
+			FROM ai_schedule_object WHERE is_deleted = 0 and status = 1 and schedule_id in (select id from ai_schedule where is_deleted = 0)
+			<if test="tenantId != null and tenantId != '' ">
+				and tenant_id = #{tenantId}
+		    </if >
+			<if test="entityType != null and entityType != '' ">
+				and entity_type = #{entityType}
+		    </if >
+		    <if test="scheduleDate != null ">
+				and schedule_date = #{scheduleDate}
+		    </if >
+			<if test="entityIdList != null and entityIdList.size() > 0 ">
+				and entity_id in
+		        <foreach item="item" index="index" collection="entityIdList" open="("  close=")" separator=",">  
+		          	#{item}   
+		        </foreach>  
+		    </if >
+		    group by entity_id
+	    ) a
+    </select>
+    
+</mapper>

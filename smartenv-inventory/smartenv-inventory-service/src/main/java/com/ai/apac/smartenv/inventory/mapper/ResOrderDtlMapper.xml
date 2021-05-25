@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.inventory.mapper.ResOrderDtlMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resOrderDtlResultMap" type="com.ai.apac.smartenv.inventory.entity.ResOrderDtl">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="order_id" property="orderId"/>
+        <result column="res_spec_id" property="resSpecId"/>
+        <result column="amount" property="amount"/>
+        <result column="res_type_id" property="resTypeId"/>
+
+    </resultMap>
+
+
+    <select id="selectResOrderDtlPage" resultMap="resOrderDtlResultMap">
+        select * from ai_res_order_dtl where is_deleted = 0
+    </select>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resOrderDtlInfoResultMap" type="com.ai.apac.smartenv.inventory.vo.ResOrderDtlVO">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="order_id" property="orderId"/>
+        <result column="res_spec_id" property="resSpecId"/>
+        <result column="amount" property="amount"/>
+        <result column="res_type_id" property="resTypeId"/>
+        <result column="spec_name" property="specName"/>
+        <result column="type_name" property="typeName"/>
+        <result column="unit" property="unit"/>
+        <result column="info_amount" property="inventoryCount"/>
+    </resultMap>
+    <select id="selectResOrderDtlInfoPage" resultMap="resOrderDtlInfoResultMap">
+        SELECT
+        dtl.*,
+        spec.spec_name,
+        tp.type_name,
+        spec.unit ,
+        -- (CASE WHEN  info.amount>=0 THEN info.amount ELSE 0  END) AS info_amount
+        info.amount as info_amount
+        FROM
+        ai_res_order_dtl dtl
+        LEFT JOIN ai_res_spec spec
+        ON spec.id = dtl.res_spec_id
+        AND spec.is_deleted = 0
+        LEFT JOIN ai_res_type tp
+        ON tp.id = dtl.res_type_id LEFT JOIN ai_res_info info ON info.res_type = dtl.res_type_id AND info.res_spec_id = dtl.res_spec_id
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.person.mapper.GroupMemberMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="groupMemberResultMap" type="com.ai.apac.smartenv.person.entity.GroupMember">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="member_id" property="groupId"/>
+        <result column="group_id" property="groupId"/>
+        <result column="member_job_number" property="memberJobNumber"/>
+        <result column="member_name" property="memberName"/>
+        <result column="member_dept_id" property="memberDeptId"/>
+        <result column="member_position_id" property="memberPositionId"/>
+        <result column="member_mobile_number" property="memberMobileNumber"/>
+        <result column="member_device_code" property="memberDeviceCode"/>
+    </resultMap>
+
+
+    <select id="selectGroupMemberPage" resultMap="groupMemberResultMap">
+        select * from ai_group_member where is_deleted = 0
+    </select>
+
+</mapper>

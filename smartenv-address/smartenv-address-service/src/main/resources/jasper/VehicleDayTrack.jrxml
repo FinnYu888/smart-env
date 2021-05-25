@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VehicleDayTrack" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="32abc88d-ff58-4da4-bf75-c4d496417a08">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="image1" class="java.io.InputStream"/>
+	<field name="image2" class="java.io.InputStream"/>
+	<field name="image3" class="java.io.InputStream"/>
+	<field name="image1Detail" class="java.lang.String"/>
+	<field name="image2Detail" class="java.lang.String"/>
+	<field name="image3Detail" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="140" y="24" width="100" height="30" uuid="1686430c-5227-4d77-8a69-ed1218be0578"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="simsun-pdf" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[每日车辆路线表-]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="240" y="24" width="140" height="30" uuid="b4dce471-6954-4cef-85f8-5183ce1d2588"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "day" )]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="390" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="30" y="10" width="60" height="20" uuid="14717c7f-d712-4d40-a823-bba0218ff030"/>
+				<textElement textAlignment="Left">
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[车辆:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="30" width="60" height="20" uuid="4c24eba0-9efd-4e65-99e4-e928a9e87fd1"/>
+				<textElement textAlignment="Left">
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[排班时间:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="50" width="60" height="20" uuid="2212699f-5226-40b4-9a4e-ef65ff8238b0"/>
+				<textElement textAlignment="Left">
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[规划路线:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="70" width="120" height="20" uuid="625630e8-270d-4a73-a4cd-6286b09b5bf0"/>
+				<textElement>
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[实际作业时间&作业路线:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="90" width="40" height="20" uuid="d4d37642-5d40-4eb1-ac95-2947c9b18e86"/>
+				<textElement textAlignment="Left">
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[起点：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="110" width="40" height="20" uuid="07209a9b-2812-4ebb-9b25-ac62da4c2390"/>
+				<textElement textAlignment="Left">
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[途径：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="170" width="40" height="20" uuid="644937cf-4676-43cf-80cf-d7cfa15350b1"/>
+				<textElement textAlignment="Left">
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[终点：]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="10" width="100" height="20" uuid="f503cc1a-39ee-4f2f-bd8a-04f6ae580c49"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "vehicle" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="30" width="100" height="20" uuid="cd1385cb-9cc4-434c-bb61-07ed4bdcb0c5"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "schedule" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="50" width="100" height="20" uuid="ff804ed9-c0b3-49e5-94af-75db399da591"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "workAreaInfo" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="90" width="310" height="20" uuid="17fd695b-dc2b-41cb-990f-3abf386227fc"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "startPoint" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="110" width="360" height="60" uuid="8721fd0e-0b7c-483a-887b-48dc53328eb9"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "line" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="170" width="310" height="20" uuid="4f6257fa-5cc2-46d1-9dee-55df2d72b3e7"/>
+				<textElement>
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "endPoint" )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="40" y="200" width="100" height="20" uuid="8c005813-bd07-4603-b69c-506127c4f220"/>
+				<textElement>
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[作业路线图：]]></text>
+			</staticText>
+			<image scaleImage="RetainShape">
+				<reportElement x="80" y="220" width="200" height="140" uuid="9d232262-e291-4253-a961-75988528efa1"/>
+				<imageExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "trackImage" )]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="10" y="370" width="100" height="15" uuid="6a406ba0-6281-47a3-bbb8-22a2ebd3ea47"/>
+				<textElement>
+					<font fontName="simsun-pdf" isBold="true"/>
+				</textElement>
+				<text><![CDATA[作业图片：]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="177" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="20" y="0" width="150" height="125" uuid="c019496a-ed2c-4831-a232-6b6c4bd1c338"/>
+				<imageExpression><![CDATA[$F{image1}]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement x="180" y="0" width="150" height="125" uuid="e95325aa-a26b-4000-bcb1-e3ef71da32c7"/>
+				<imageExpression><![CDATA[$F{image2}]]></imageExpression>
+			</image>
+			<image scaleImage="FillFrame">
+				<reportElement x="340" y="2" width="160" height="125" uuid="9368646c-eebe-48a2-96f1-b41c1bcf178b"/>
+				<imageExpression><![CDATA[$F{image3}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="20" y="125" width="150" height="30" backcolor="#F2F2F2" uuid="9a759ee0-10b7-4e4f-bdf1-283da5ff1a3a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{image1Detail}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="125" width="150" height="30" backcolor="#F2F2F2" uuid="e6bc45c9-482b-4652-a63a-00614cc5eb6b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{image2Detail}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="125" width="150" height="30" backcolor="#F2F2F2" uuid="c72d28ae-50fa-419c-9c56-7d348aa4c782"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="simsun-pdf"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{image3Detail}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.inventory.mapper.ResOperateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resOperateResultMap" type="com.ai.apac.smartenv.inventory.entity.ResOperate">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="resource_id" property="resourceId"/>
+        <result column="res_type" property="resType"/>
+        <result column="serial_number" property="serialNumber"/>
+        <result column="batch_id" property="batchId"/>
+        <result column="res_spec" property="resSpec"/>
+        <result column="inventory_id" property="inventoryId"/>
+        <result column="reservation_recipient_type" property="reservationRecipientType"/>
+        <result column="reservation_recipient" property="reservationRecipient"/>
+        <result column="rel_ord_id" property="relOrdId"/>
+        <result column="reserved_expire_date" property="reservedExpireDate"/>
+        <result column="amount" property="amount"/>
+        <result column="used_time" property="usedTime"/>
+        <result column="operate_type" property="operateType"/>
+        <result column="operate_state" property="operateState"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="purchasing_agent" property="purchasingAgent"/>
+        <result column="purchasing_date" property="purchasingDate"/>
+        <result column="manage_state_reason_desc" property="manageStateReasonDesc"/>
+        <result column="remark" property="remark"/>
+        <result column="resource_source" property="resourceSource"/>
+    </resultMap>
+
+
+    <select id="selectResOperatePage" resultMap="resOperateResultMap">
+        select * from ai_res_operate where is_deleted = 0
+    </select>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="QueryOperateResultMap" type="com.ai.apac.smartenv.inventory.entity.ResOperateQuery">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="resource_id" property="resourceId"/>
+        <result column="res_type" property="resType"/>
+        <result column="serial_number" property="serialNumber"/>
+        <result column="batch_id" property="batchId"/>
+        <result column="res_spec" property="resSpec"/>
+        <result column="inventory_id" property="inventoryId"/>
+        <result column="reservation_recipient_type" property="reservationRecipientType"/>
+        <result column="reservation_recipient" property="reservationRecipient"/>
+        <result column="rel_ord_id" property="relOrdId"/>
+        <result column="reserved_expire_date" property="reservedExpireDate"/>
+        <result column="amount" property="amount"/>
+        <result column="used_time" property="usedTime"/>
+        <result column="operate_type" property="operateType"/>
+        <result column="operate_state" property="operateState"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="purchasing_agent" property="purchasingAgent"/>
+        <result column="purchasing_date" property="purchasingDate"/>
+        <result column="manage_state_reason_desc" property="manageStateReasonDesc"/>
+        <result column="remark" property="remark"/>
+        <result column="type_name" property="typeName"/>
+        <result column="spec_name" property="specName"/>
+        <result column="unit" property="unit"/>
+        <result column="inventoryName" property="inventoryName"/>
+        <result column="operateTypeName" property="operateTypeName"/>
+        <result column="resource_source" property="resourceSource"/>
+    </resultMap>
+    <select id="queryResOperatePage"  resultMap="QueryOperateResultMap" >
+        SELECT
+        oper.*,
+        spec.spec_name,
+        spec.unit,
+        tp.type_name
+        FROM
+        ai_res_operate oper
+        LEFT JOIN ai_res_type tp
+        ON tp.id = oper.res_type
+        LEFT JOIN ai_res_spec spec
+        ON oper.res_spec = spec.id
+
+        <where>
+            ${ew.sqlSegment}
+        </where>
+        <!-- <if test='resType != null'> and oper.res_type = #{resType}</if>
+        <if test='resSpec != null'> and oper.res_spec = #{resSpec}</if>-->
+    </select>
+
+</mapper>

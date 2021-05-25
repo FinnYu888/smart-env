@@ -1,0 +1,10 @@
+INSERT INTO `blade_menu`(`id`, `parent_id`, `code`, `name`, `alias`, `path`, `source`, `sort`, `category`, `action`, `is_open`, `remark`, `is_deleted`)
+VALUES ('1217366954486030342', 0, 'facilityrel', '', 'menu', '/facility/facilityrel', NULL, 1, 1, 0, 1, NULL, 0);
+INSERT INTO `blade_menu`(`id`, `parent_id`, `code`, `name`, `alias`, `path`, `source`, `sort`, `category`, `action`, `is_open`, `remark`, `is_deleted`)
+VALUES ('1217366954486030343', '1217366954486030342', 'facilityrel_add', '新增', 'add', '/facility/facilityrel/add', 'plus', 1, 2, 1, 1, NULL, 0);
+INSERT INTO `blade_menu`(`id`, `parent_id`, `code`, `name`, `alias`, `path`, `source`, `sort`, `category`, `action`, `is_open`, `remark`, `is_deleted`)
+VALUES ('1217366954486030344', '1217366954486030342', 'facilityrel_edit', '修改', 'edit', '/facility/facilityrel/edit', 'form', 2, 2, 2, 1, NULL, 0);
+INSERT INTO `blade_menu`(`id`, `parent_id`, `code`, `name`, `alias`, `path`, `source`, `sort`, `category`, `action`, `is_open`, `remark`, `is_deleted`)
+VALUES ('1217366954486030345', '1217366954486030342', 'facilityrel_delete', '删除', 'delete', '/api/smartenv-facility/facilityrel/remove', 'delete', 3, 2, 3, 1, NULL, 0);
+INSERT INTO `blade_menu`(`id`, `parent_id`, `code`, `name`, `alias`, `path`, `source`, `sort`, `category`, `action`, `is_open`, `remark`, `is_deleted`)
+VALUES ('1217366954486030346', '1217366954486030342', 'facilityrel_view', '查看', 'view', '/facility/facilityrel/view', 'file-text', 4, 2, 2, 1, NULL, 0);

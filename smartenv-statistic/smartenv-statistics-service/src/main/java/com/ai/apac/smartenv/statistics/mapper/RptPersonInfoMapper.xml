@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.statistics.mapper.RptPersonInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="rptPersonInfoResultMap" type="com.ai.apac.smartenv.statistics.entity.RptPersonInfo">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="date" property="date"/>
+        <result column="month" property="month"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="device_code" property="deviceCode"/>
+        <result column="operation_rate" property="operationRate"/>
+    </resultMap>
+
+
+    <select id="selectRptPersonInfoPage" resultMap="rptPersonInfoResultMap">
+        select * from ai_rpt_person_info where is_deleted = 0
+    </select>
+
+</mapper>

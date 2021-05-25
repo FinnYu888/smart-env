@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.green.mapper.GreenareaItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="greenareaItemResultMap" type="com.ai.apac.smartenv.green.entity.GreenareaItem">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="greenarea_id" property="greenareaId"/>
+        <result column="item_spec_id" property="itemSpecId"/>
+        <result column="item_count" property="itemCount"/>
+    </resultMap>
+
+
+    <select id="selectGreenareaItemPage" resultMap="greenareaItemResultMap">
+        select * from ai_greenarea_item where is_deleted = 0
+    </select>
+
+</mapper>

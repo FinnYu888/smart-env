@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.facility.mapper.ToiletInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="toiletInfoResultMap" type="com.ai.apac.smartenv.facility.entity.ToiletInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="toilet_name" property="toiletName"/>
+        <result column="toilet_code" property="toiletCode"/>
+        <result column="toilet_level" property="toiletLevel"/>
+        <result column="toilet_image" property="toiletImage"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="toilet_pm" property="toiletPm"/>
+        <result column="clear_point" property="clearPoint"/>
+        <result column="clear_desc" property="clearDesc"/>
+        <result column="charge_person_id" property="chargePersonId"/>
+        <result column="support_device" property="supportDevice"/>
+        <result column="company_code" property="companyCode"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="workarea_id" property="workareaId"/>
+        <result column="region_id" property="regionId"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="location" property="location"/>
+        <result column="detail_location" property="detailLocation"/>
+        <result column="work_status" property="workStatus"/>
+        <result column="toilet_qr_code" property="toiletQrCode"/>
+    </resultMap>
+
+
+    <select id="selectToiletInfoPage" resultMap="toiletInfoResultMap">
+        select * from ai_toilet_info where is_deleted = 0
+    </select>
+
+</mapper>

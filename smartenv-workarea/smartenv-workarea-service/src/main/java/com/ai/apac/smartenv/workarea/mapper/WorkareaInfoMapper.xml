@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.workarea.mapper.WorkareaInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="workareaInfoResultMap" type="com.ai.apac.smartenv.workarea.entity.WorkareaInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="region_id" property="regionId"/>
+        <result column="area_type" property="areaType"/>
+        <result column="area_name" property="areaName"/>
+        <result column="area_address" property="areaAddress"/>
+        <result column="division" property="division"/>
+        <result column="work_area_type" property="workAreaType"/>
+        <result column="length" property="length"/>
+        <result column="width" property="width"/>
+        <result column="area" property="area"/>
+        <result column="person_count" property="personCount"/>
+        <result column="vehicle_count" property="vehicleCount"/>
+        <result column="bind_type" property="bindType"/>
+        <result column="area_head" property="areaHead"/>
+        <result column="area_level" property="areaLevel"/>
+
+
+    </resultMap>
+
+
+    <select id="selectWorkareaInfoPage" resultMap="workareaInfoResultMap">
+        select * from ai_workarea_info where is_deleted = 0
+    </select>
+
+</mapper>

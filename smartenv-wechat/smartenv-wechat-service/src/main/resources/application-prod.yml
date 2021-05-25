@@ -1,0 +1,10 @@
+#服务器端口
+server:
+  port: 8123
+
+#数据源配置
+spring:
+  datasource:
+    url: ${blade.datasource.wechat.prod.url}
+    username: ${blade.datasource.wechat.prod.username}
+    password: ${blade.datasource.wechat.prod.password}

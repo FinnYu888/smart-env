@@ -1,0 +1,132 @@
+server:
+  undertow:
+    # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    io-threads: 4
+    # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    worker-threads: 20
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    buffer-size: 1024
+    # 是否分配的直接内存
+    direct-buffers: true
+
+#swagger扫描路径配置
+swagger:
+  base-packages:
+    - org.springbalde
+    - com.ai.apac.smartenv
+
+spring:
+  cloud:
+    # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
+    stream:
+      bindings:
+        # 首页相关
+        home_count_update_output: # 当有首页统计数据更新
+          destination: HOME-COUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_count_update_input: # 当有首页统计数据更新
+          destination: HOME-COUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_event_list_update_output: # 当有首页事件更新
+          destination: HOME-EVENT-LIST-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_event_list_update_input: # 当有首页事件更新
+          destination: HOME-EVENT-LIST-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_alarm_list_update_output: # 当有首页告警更新
+          destination: HOME-ALARM-LIST-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_alarm_list_update_input: # 当有首页告警更新
+          destination: HOME-ALARM-LIST-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_order_list_update_output: # 当有首页任务更新
+          destination: HOME-ORDER-LIST-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_order_list_update_input: # 当有首页任务更新
+          destination: HOME-ORDER-LIST-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_garbage_amount_update_output: # 当有垃圾统计数据更新
+          destination: HOME-GARBAGE-AMOUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        home_garbage_amount_update_input: # 当有垃圾统计数据更新
+          destination: HOME-GARBAGE-AMOUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        # 大屏相关
+        bigscreen_count_update_output: # 当有首页统计数据更新
+          destination: BIGSCREEN-COUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_count_update_input: # 当有首页统计数据更新
+          destination: BIGSCREEN-COUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_garbage-amount-by-region_update_output: # 当有首页统计数据更新
+          destination: BIGSCREEN-GARBAGE-AMOUNT-BY-REGION-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_garbage-amount-by-region_update_input: # 当有首页统计数据更新
+          destination: BIGSCREEN-GARBAGE-AMOUNT-BY-REGION-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_last-garbage-amount_update_output: # 当有首页统计数据更新
+          destination: BIGSCREEN-LAST-GARBAGE-AMOUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_last-garbage-amount_update_input: # 当有首页统计数据更新
+          destination: BIGSCREEN-LAST-GARBAGE-AMOUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_all-rule-alarm-amount_update_output: # 当有首页统计数据更新
+          destination: BIGSCREEN-ALL-RULE-ALARM-AMOUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_all-rule-alarm-amount_update_input: # 当有首页统计数据更新
+          destination: BIGSCREEN-ALL-RULE-ALARM-AMOUNT-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_last-alarm_update_output: # 当有首页统计数据更新
+          destination: BIGSCREEN-LAST-ALARM-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_last-alarm_update_input: # 当有首页统计数据更新
+          destination: BIGSCREEN-LAST-ALARM-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_event-count-by-type_update_output: # 当有首页统计数据更新
+          destination: BIGSCREEN-EVENT-COUNT-BY-TYPE-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        bigscreen_event-count-by-type_update_input: # 当有首页统计数据更新
+          destination: BIGSCREEN-EVENT-COUNT-BY-TYPE-UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        polymerization_vehicle_change_input: # 当有紧急告警新增
+          destination: polymerization_vehicle_change
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        polymerization_person_change_input: # 当有紧急告警新增
+          destination: polymerization_person_change
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        polymerization_alarm-amount_update_output:
+          destination: POLYMERIZATION_ALARM_AMOUNT_UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        polymerization_alarm-amount_update_input:
+          destination: POLYMERIZATION_ALARM_AMOUNT_UPDATE
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+
+
+
+

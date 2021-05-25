@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>smartenv-device</artifactId>
+        <groupId>com.ai.apac</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>smartenv-device-service</artifactId>
+    <packaging>jar</packaging>
+    <version>${smartenv.project.version}</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-device-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-datascope-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-common</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-dict-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springblade</groupId>
+            <artifactId>blade-core-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springblade</groupId>
+            <artifactId>blade-starter-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-system-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-person-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-vehicle-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-facility-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <copy overwrite="true"
+                                      tofile="${session.executionRootDirectory}/target/${project.artifactId}.jar"
+                                      file="${project.build.directory}/${project.artifactId}.jar" />
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

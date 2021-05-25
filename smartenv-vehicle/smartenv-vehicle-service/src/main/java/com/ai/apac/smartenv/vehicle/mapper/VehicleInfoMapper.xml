@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.vehicle.mapper.VehicleInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="vehicleInfoResultMap" type="com.ai.apac.smartenv.vehicle.entity.VehicleInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="plate_number" property="plateNumber"/>
+        <result column="kind_code" property="kindCode"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="dept_add_time" property="deptAddTime"/>
+        <result column="dept_remove_time" property="deptRemoveTime"/>
+        <result column="is_used" property="isUsed"/>
+        <result column="init_gps_mile" property="initGpsMile"/>
+        <result column="init_gps_date" property="initGpsDate"/>
+        <result column="last_gps_time" property="lastGpsTime"/>
+        <result column="epc" property="epc"/>
+        <result column="engine_no" property="engineNo"/>
+        <result column="brand" property="brand"/>
+        <result column="tonnage" property="tonnage"/>
+        <result column="vehicle_model" property="vehicleModel"/>
+        <result column="invoice" property="invoice"/>
+        <result column="driving_license" property="drivingLicense"/>
+        <result column="identify_number" property="identifyNumber"/>
+        <result column="vin" property="vin"/>
+        <result column="manufacturer" property="manufacturer"/>
+        <result column="origin_production_place" property="originProductionPlace"/>
+        <result column="production_date" property="productionDate"/>
+        <result column="drivetrain_layout" property="drivetrainLayout"/>
+        <result column="engine_power" property="enginePower"/>
+        <result column="own_weight" property="ownWeight"/>
+        <result column="engine_displacement" property="engineDisplacement"/>
+        <result column="main_engine_brand" property="mainEngineBrand"/>
+        <result column="main_engine_model" property="mainEngineModel"/>
+        <result column="supplementary_engine_brand" property="supplementaryEngineBrand"/>
+        <result column="supplementary_engine_model" property="supplementaryEngineModel"/>
+        <result column="chassis_factory_brand" property="chassisFactoryBrand"/>
+        <result column="chassis_factory_model" property="chassisFactoryModel"/>
+        <result column="tire_type" property="tireType"/>
+        <result column="tire_amount" property="tireAmount"/>
+        <result column="curb_weight" property="curbWeight"/>
+        <result column="rated_weight" property="ratedWeight"/>
+        <result column="emission_standard" property="emissionStandard"/>
+        <result column="fuel_type" property="fuelType"/>
+        <result column="roz" property="roz"/>
+        <result column="fuel_property" property="fuelProperty"/>
+        <result column="fuel_capacity" property="fuelCapacity"/>
+        <result column="person_liable" property="personLiable"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="fuel_tank_size" property="fuelTankSize"/>
+        <result column="serial_no" property="serialNo"/>
+        <result column="boundary_size" property="boundarySize"/>
+        <result column="seat_amount" property="seatAmount"/>
+        <result column="acc_device_status" property="accDeviceStatus"/>
+    </resultMap>
+
+    <resultMap id="vehicleInfoVoResultMap" type="com.ai.apac.smartenv.vehicle.vo.VehicleInfoVO">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="plate_number" property="plateNumber"/>
+        <result column="kind_code" property="kindCode"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="dept_add_time" property="deptAddTime"/>
+        <result column="dept_remove_time" property="deptRemoveTime"/>
+        <result column="is_used" property="isUsed"/>
+        <result column="init_gps_mile" property="initGpsMile"/>
+        <result column="init_gps_date" property="initGpsDate"/>
+        <result column="last_gps_time" property="lastGpsTime"/>
+        <result column="epc" property="epc"/>
+        <result column="engine_no" property="engineNo"/>
+        <result column="brand" property="brand"/>
+        <result column="tonnage" property="tonnage"/>
+        <result column="vehicle_model" property="vehicleModel"/>
+        <result column="invoice" property="invoice"/>
+        <result column="driving_license" property="drivingLicense"/>
+        <result column="identify_number" property="identifyNumber"/>
+        <result column="vin" property="vin"/>
+        <result column="manufacturer" property="manufacturer"/>
+        <result column="origin_production_place" property="originProductionPlace"/>
+        <result column="production_date" property="productionDate"/>
+        <result column="drivetrain_layout" property="drivetrainLayout"/>
+        <result column="engine_power" property="enginePower"/>
+        <result column="own_weight" property="ownWeight"/>
+        <result column="engine_displacement" property="engineDisplacement"/>
+        <result column="main_engine_brand" property="mainEngineBrand"/>
+        <result column="main_engine_model" property="mainEngineModel"/>
+        <result column="supplementary_engine_brand" property="supplementaryEngineBrand"/>
+        <result column="supplementary_engine_model" property="supplementaryEngineModel"/>
+        <result column="chassis_factory_brand" property="chassisFactoryBrand"/>
+        <result column="chassis_factory_model" property="chassisFactoryModel"/>
+        <result column="tire_type" property="tireType"/>
+        <result column="tire_amount" property="tireAmount"/>
+        <result column="curb_weight" property="curbWeight"/>
+        <result column="rated_weight" property="ratedWeight"/>
+        <result column="emission_standard" property="emissionStandard"/>
+        <result column="fuel_type" property="fuelType"/>
+        <result column="roz" property="roz"/>
+        <result column="fuel_property" property="fuelProperty"/>
+        <result column="fuel_capacity" property="fuelCapacity"/>
+        <result column="person_liable" property="personLiable"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="vehiclePicName" property="vehiclePicName"/>
+        <result column="fuel_tank_size" property="fuelTankSize"/>
+        <result column="serial_no" property="serialNo"/>
+        <result column="boundary_size" property="boundarySize"/>
+        <result column="seat_amount" property="seatAmount"/>
+        <result column="acc_device_status" property="accDeviceStatus"/>
+    </resultMap>
+
+
+    <select id="selectVehicleInfoPage" resultMap="vehicleInfoResultMap">
+        select * from ai_vehicle_info where is_deleted = 0
+    </select>
+
+    <select id="selectVehicleInfoVOPage" resultMap="vehicleInfoVoResultMap">
+        SELECT
+          info.*,ext.attr_value AS vehiclePicName
+        FROM
+          ai_vehicle_info info
+          LEFT JOIN ai_vehicle_ext ext
+            ON info.id = ext.vehicle_id
+            AND ext.is_deleted = 0
+            AND ext.attr_id = '100000'
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+    <select id="countVehicleInfoVOPage" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM
+        ai_vehicle_info info
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+    
+    <update id="updateVehicleInfoById" parameterType="map">
+	    update ai_vehicle_info
+	    <set>
+	    	plate_number = #{record.plateNumber},
+	        kind_code = #{record.kindCode},
+	        entity_category_id = #{record.entityCategoryId},
+	        dept_id = #{record.deptId},
+	        dept_add_time = #{record.deptAddTime},
+	        dept_remove_time = #{record.deptRemoveTime},
+	        is_used = #{record.isUsed},
+	        init_gps_mile = #{record.initGpsMile},
+	        init_gps_date = #{record.initGpsDate},
+	        last_gps_time = #{record.lastGpsTime},
+	        epc = #{record.epc},
+	        engine_no = #{record.engineNo},
+	        brand = #{record.brand},
+	        tonnage = #{record.tonnage},
+	        vehicle_model = #{record.vehicleModel},
+	        invoice = #{record.invoice},
+	        driving_license = #{record.drivingLicense},
+	        identify_number = #{record.identifyNumber},
+	        vin = #{record.vin},
+	        manufacturer = #{record.manufacturer},
+	        origin_production_place = #{record.originProductionPlace},
+	        production_date = #{record.productionDate},
+	        drivetrain_layout = #{record.drivetrainLayout},
+	        engine_power = #{record.enginePower},
+	        own_weight = #{record.ownWeight},
+	        engine_displacement = #{record.engineDisplacement},
+	        main_engine_brand = #{record.mainEngineBrand},
+	        main_engine_model = #{record.mainEngineModel},
+	        supplementary_engine_brand = #{record.supplementaryEngineBrand},
+	        supplementary_engine_model = #{record.supplementaryEngineModel},
+	        chassis_factory_brand = #{record.chassisFactoryBrand},
+	        chassis_factory_model = #{record.chassisFactoryModel},
+	        tire_type = #{record.tireType},
+	        tire_amount = #{record.tireAmount},
+	        curb_weight = #{record.curbWeight},
+	        rated_weight = #{record.ratedWeight},
+	        emission_standard = #{record.emissionStandard},
+	        fuel_type = #{record.fuelType},
+	        roz = #{record.roz},
+	        fuel_property = #{record.fuelProperty},
+	        fuel_capacity = #{record.fuelCapacity},
+	        person_liable = #{record.personLiable},
+	        contact_phone = #{record.contactPhone},
+	        fuel_tank_size = #{record.fuelTankSize},
+	        serial_no = #{record.serialNo},
+	        boundary_size = #{record.boundarySize},
+	        seat_amount = #{record.seatAmount},
+	        update_user = #{record.updateUser},
+            acc_device_status = #{record.accDeviceStatus},
+	        update_time = #{record.updateTime}
+	    </set>
+	    where id = #{record.id}
+	  </update>
+
+</mapper>

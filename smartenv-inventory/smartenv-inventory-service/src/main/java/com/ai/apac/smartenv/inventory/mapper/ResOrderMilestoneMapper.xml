@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.inventory.mapper.ResOrderMilestoneMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resOrderMilestoneResultMap" type="com.ai.apac.smartenv.inventory.entity.ResOrderMilestone">
+        <id column="order_id" property="orderId"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="id" property="id"/>
+        <result column="assignment_id" property="assignmentId"/>
+        <result column="assignment_name" property="assignmentName"/>
+        <result column="done_result" property="doneResult"/>
+        <result column="done_remark" property="doneRemark"/>
+        <result column="description" property="description"/>
+        <result column="task_define_name" property="taskDefineName"/>
+        <result column="task_id" property="taskId"/>
+        <result column="description" property="description"/>
+    </resultMap>
+
+
+    <select id="selectResOrderMilestonePage" resultMap="resOrderMilestoneResultMap">
+        select * from ai_res_order_milestone where is_deleted = 0
+    </select>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="simsun-pdf">
+		<normal>fonts/SIMSUN.TTF</normal><!--字体文件的路径-->
+		<bold>fonts/SIMSUN.TTF</bold>
+		<italic>fonts/SIMSUN.TTF</italic>
+		<boldItalic>fonts/SIMSUN.TTF</boldItalic>
+		<pdfEncoding>Identity-H</pdfEncoding><!--这里的定义就与上面1.1的图设置相匹配了-->
+		<pdfEmbedded>true</pdfEmbedded>
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">'simsun-pdf', Arial, Helvetica, sans-serif</export>
+			<export key="net.sf.jasperreports.xhtml">'simsun-pdf', Arial, Helvetica, sans-serif</export>
+		</exportFonts>
+	</fontFamily>
+
+
+
+</fontFamilies>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.system.user.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="userResultMap" type="com.ai.apac.smartenv.system.user.entity.User">
+        <result column="id" property="id"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="real_name" property="realName"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="role_id" property="roleId"/>
+        <result column="role_group" property="roleGroup"/>
+        <result column="dept_id" property="deptId"/>
+    </resultMap>
+
+    <resultMap id="userPageResultMap" type="com.ai.apac.smartenv.system.user.vo.UserVO">
+        <result column="id" property="id"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="real_name" property="realName"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="role_id" property="roleId"/>
+        <result column="role_group" property="roleGroup"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="dept_full_name" property="deptFullName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        select id,
+        create_user AS createUser,
+        create_time AS createTime,
+        update_user AS updateUser,
+        update_time AS updateTime,
+        status,
+        is_deleted AS isDeleted,
+        account, password, name, real_name, email, phone, birthday, sex, role_id, dept_id, role_group
+    </sql>
+
+    <select id="selectUserPage" resultMap="userResultMap">
+        select * from blade_user where is_deleted = 0
+        <if test="tenantId!=null and tenantId != ''">
+            and tenant_id = #{tenantId}
+        </if>
+        <if test="user.tenantId!=null and user.tenantId != ''">
+            and tenant_id = #{user.tenantId}
+        </if>
+        <if test="user.account!=null and user.account != ''">
+            and account = #{user.account}
+        </if>
+        <if test="user.realName!=null and user.realName != ''">
+            and real_name like CONCAT('%',#{user.realName},'%')
+        </if>
+        <if test="user.status!=null">
+            and status = #{user.status}
+        </if>
+        <if test="deptIdList!=null and deptIdList.size>0">
+            and id in (
+            SELECT
+            user_id
+            FROM
+            blade_user_dept
+            WHERE
+            dept_id IN
+            <foreach collection="deptIdList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        ORDER BY id
+    </select>
+
+    <select id="getUser" resultMap="userResultMap">
+        SELECT
+            *
+        FROM
+            blade_user
+        WHERE
+            tenant_id = #{param1} and account = #{param2} and is_deleted = 0
+    </select>
+
+    <select id="getUserByAccount" resultMap="userResultMap">
+        SELECT
+            *
+        FROM
+            blade_user
+        WHERE
+            account = #{param1}
+    </select>
+
+    <select id="selectUserPageByCond" resultMap="userPageResultMap">
+        select a.id,a.create_user,a.create_time,a.update_user,a.update_time,a.status,
+        a.is_deleted,a.account, a.password, a.name, a.real_name, a.email, a.phone, a.birthday,
+        a.sex, a.role_id, a.dept_id,b.dept_name,b.full_name as dept_full_name,a.role_group
+        from blade_user a
+        left join blade_dept b on a.dept_id = b.id
+        where a.is_deleted = 0
+        <if test="tenantId!=null and tenantId != ''">
+            and a.tenant_id = #{tenantId}
+        </if>
+        <if test="user.tenantId!=null and user.tenantId != ''">
+            and a.tenant_id = #{user.tenantId}
+        </if>
+        <if test="user.account!=null and user.account != ''">
+            and a.account = #{user.account}
+        </if>
+        <if test="user.realName!=null and user.realName != ''">
+            and a.real_name like CONCAT('%',#{user.realName},'%')
+        </if>
+        <if test="user.status!=null">
+            and a.status = #{user.status}
+        </if>
+        <if test="roleGroupList!=null and roleGroupList.size>0">
+            and a.role_group in
+            <foreach collection="roleGroupList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="deptIdList!=null and deptIdList.size>0">
+            and a.id in (
+            SELECT
+            user_id
+            FROM
+            blade_user_dept
+            WHERE
+            dept_id IN
+            <foreach collection="deptIdList" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        ORDER BY a.id
+    </select>
+
+    <select id="selectUserByCond" resultMap="userResultMap">
+        select a.id,a.create_user,a.create_time,a.update_user,a.update_time,a.status,
+        a.is_deleted,a.account, a.password, a.name, a.real_name, a.email, a.phone, a.birthday,
+        a.sex, a.role_id, a.dept_id,a.role_group,a.tenant_id
+        from blade_user a
+        left join blade_dept b on a.dept_id = b.id
+        where 1=1
+        <if test="tenantId!=null and tenantId != ''">
+            and a.tenant_id = #{tenantId}
+        </if>
+        <if test="user.id!=null and user.id != ''">
+            and a.id = #{user.id}
+        </if>
+        <if test="user.tenantId!=null and user.tenantId != ''">
+            and a.tenant_id = #{user.tenantId}
+        </if>
+        <if test="user.account!=null and user.account != ''">
+            and a.account = #{user.account}
+        </if>
+        <if test="user.realName!=null and user.realName != ''">
+            and a.real_name like CONCAT('%',#{user.realName},'%')
+        </if>
+        <if test="user.status!=null">
+            and a.status = #{user.status}
+        </if>
+        ORDER BY a.id
+    </select>
+
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.device.mapper.DeviceInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="deviceInfoResultMap" type="com.ai.apac.smartenv.device.entity.DeviceInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="device_code" property="deviceCode"/>
+        <result column="device_name" property="deviceName"/>
+        <result column="device_type" property="deviceType"/>
+        <result column="device_factory" property="deviceFactory"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="device_status" property="deviceStatus"/>
+        <result column="device_location" property="deviceLocation"/>
+        <result column="device_location_name" property="deviceLocationName"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="deviceInfo4QueryResultMap" type="com.ai.apac.smartenv.device.vo.VehicleDeviceVO">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="device_code" property="deviceCode"/>
+        <result column="device_name" property="deviceName"/>
+        <result column="device_type" property="deviceType"/>
+        <result column="device_factory" property="deviceFactory"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="device_status" property="deviceStatus"/>
+        <result column="device_location" property="deviceLocation"/>
+        <result column="device_location_name" property="deviceLocationName"/>
+        <result column="relEntityId" property="relEntityId"/>
+        <result column="simId" property="simId"/>
+        <result column="sim" property="sim"/>
+        <result column="simNumber" property="simNumber"/>
+        <result column="deviceChannelNumber" property="deviceChannelNumber"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        id,create_user,create_time,update_user,update_time,status,is_deleted,
+        device_code, device_name, device_type, device_factory, entity_category_id, device_status,device_location,device_location_name
+    </sql>
+
+    <select id="selectDeviceInfoVOPage" resultMap="deviceInfo4QueryResultMap">
+        SELECT
+        a.*,
+        b.entity_id AS relEntityId,
+        c.id AS simId,
+        e.sim_code AS sim,
+        e.sim_number AS simNumber,
+        (SELECT
+        COUNT(*)
+        FROM
+        ai_device_channel d
+        WHERE a.id = d.device_id
+        AND d.is_deleted = 0) AS deviceChannelNumber
+        FROM
+        ai_device_info a
+        LEFT JOIN ai_device_rel b
+        ON a.id = b.device_id
+        AND b.is_deleted = 0
+        LEFT JOIN ai_sim_rel c
+        ON a.id = c.device_id
+        AND c.is_deleted = 0
+        LEFT JOIN ai_sim_info e
+        ON c.sim_id = e.id
+        AND e.is_deleted = 0
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+
+    <select id="countDeviceInfoVOPage" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM
+        ai_device_info a
+        LEFT JOIN ai_device_rel b
+        ON a.id = b.device_id
+        AND b.is_deleted = 0
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+    <select id="selectDeviceInfoPage" resultMap="deviceInfoResultMap">
+        select * from ai_device_info where is_deleted = 0
+        order by update_time desc
+    </select>
+
+    <select id="selectDeviceInfoList" resultMap="deviceInfoResultMap">
+        select
+        <include refid="baseColumnList"></include>
+        from ai_device_info where 1=1
+        <if test="id!=null and id!=''">
+            and id = #{id}
+        </if>
+        <if test="tenantId!=null and tenantId!=''">
+            and tenant_id = #{tenantId}
+        </if>
+        <if test="deviceCode!=null and deviceCode!=''">
+            and device_code = #{deviceCode}
+        </if>
+    </select>
+
+
+    <select id="listBindedDevice" resultMap="deviceInfoResultMap">
+        SELECT
+            ai_device_info.*
+        FROM
+            ai_device_rel
+        LEFT JOIN ai_device_info
+            ON ai_device_info.id = ai_device_rel.device_id
+        WHERE ai_device_rel.entity_id = #{entityId}
+        AND ai_device_rel.entity_type = #{entityType}
+        AND ai_device_rel.tenant_id = #{tenantId}
+        AND ai_device_rel.is_deleted = 0;
+    </select>
+
+    <resultMap id="devicePersonInfoResultMap" type="com.ai.apac.smartenv.device.entity.DevicePersonInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="device_code" property="deviceCode"/>
+        <result column="device_name" property="deviceName"/>
+        <result column="device_type" property="deviceType"/>
+        <result column="device_factory" property="deviceFactory"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="device_status" property="deviceStatus"/>
+        <result column="device_location" property="deviceLocation"/>
+        <result column="device_location_name" property="deviceLocationName"/>
+        <result column="entity_id" property="entityId"/>
+    </resultMap>
+    <select id="listDeviceEntity" resultMap="devicePersonInfoResultMap">
+        SELECT info.* ,rel.entity_id FROM ai_device_rel rel LEFT JOIN ai_device_info info ON rel.device_id = info.id  where rel.entity_id in (
+        <foreach collection="entityIdList" item="item" index="index" separator="," >
+            #{item}
+        </foreach>
+          )and info.entity_category_id = #{entityType} and rel.is_deleted = 0
+    </select>
+</mapper>

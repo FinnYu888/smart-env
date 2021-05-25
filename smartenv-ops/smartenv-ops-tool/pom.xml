@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>smartenv-ops</artifactId>
+        <groupId>com.ai.apac</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>运维用到的一些小工具集合</description>
+
+    <artifactId>smartenv-ops-tool</artifactId>
+    <packaging>jar</packaging>
+    <version>${smartenv.project.version}</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring.boot.version>1.5.4.RELEASE</spring.boot.version>
+
+        <mybatis.version>3.4.6</mybatis.version>
+        <pagehelper.version>5.1.7</pagehelper.version>
+        <mapper.starter.version>2.0.3</mapper.starter.version>
+        <pagehelper.starter.version>1.2.9</pagehelper.starter.version>
+
+        <kafka.version>0.9.0.1</kafka.version>
+        <javax.mail.version>1.4.7</javax.mail.version>
+        <java.version>1.8</java.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
+        <guava.version>23.0</guava.version>
+        <jackson.version>2.8.8</jackson.version>
+        <org.slf4j-version>1.7.12</org.slf4j-version>
+        <logback.version>1.1.5</logback.version>
+        <hutool.version>4.6.1</hutool.version>
+        <lombok.version>1.18.4</lombok.version>
+        <swagger.version>2.7.0</swagger.version>
+        <fastjson.version>1.2.50</fastjson.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-system-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-oss-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-datascope-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-user-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-person-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-vehicle-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-common</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-dict-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ai.apac</groupId>
+            <artifactId>smartenv-statistics-api</artifactId>
+            <version>${smartenv.project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springblade</groupId>
+            <artifactId>blade-core-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springblade</groupId>
+            <artifactId>blade-starter-swagger</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.plugin.version}</version>
+                <configuration>
+                    <skipDockerBuild>true</skipDockerBuild>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <copy overwrite="true"
+                                      tofile="${session.executionRootDirectory}/target/${project.artifactId}.jar"
+                                      file="${project.build.directory}/${project.artifactId}.jar" />
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

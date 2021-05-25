@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.facility.mapper.ToiletQuotaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="toiletQuotaResultMap" type="com.ai.apac.smartenv.facility.entity.ToiletQuota">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="toilet_id" property="toiletId"/>
+        <result column="quota_type" property="quotaType"/>
+        <result column="support_device" property="supportDevice"/>
+        <result column="work_status" property="workStatus"/>
+        <result column="toilet_qr_code" property="toiletQrCode"/>
+    </resultMap>
+
+
+    <select id="selectToiletQuotaPage" resultMap="toiletQuotaResultMap">
+        select * from ai_toilet_quota where is_deleted = 0
+    </select>
+
+</mapper>

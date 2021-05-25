@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>邮件提醒</title>
+    <style>
+        body {
+            /*text-align: center;*/
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #welcome {
+            /*text-align: center;*/
+        }
+    </style>
+</head>
+<body>
+<div id="welcome">
+    <div style="text-align: left; padding: 10px">
+        &nbsp;&nbsp;您好,<br>
+    </div>
+    <div style="text-align: left; padding: 5px">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text=" ${emailContent}"></span>
+    </div>
+    <div style="text-align: left; padding: 5px">
+        <br><br>
+        &nbsp;&nbsp;&nbsp;智慧环卫管理云平台
+    </div>
+</div>
+</body>
+</html>

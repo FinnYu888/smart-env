@@ -1,0 +1,161 @@
+{
+	"id": "c5d0c4fa-4ed9-f5ff-0414-45c274bc634c",
+	"name": "环卫",
+	"description": "",
+	"order": [
+		"e281a1f8-fbb2-73f0-8292-136d5a471793",
+		"5f50ae86-7f07-3347-252c-63117332c3f6"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1583317667189,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "5f50ae86-7f07-3347-252c-63117332c3f6",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://10.21.35.111:18066/smartenv-api/etl/track/put",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": "eval(globals.format_time);\npm.environment.set(\"timeNow\",timeNow);\n\nconst randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;\npm.environment.set(\"random02\",randomInt(0,2));",
+			"method": "POST",
+			"collectionId": "c5d0c4fa-4ed9-f5ff-0414-45c274bc634c",
+			"data": [
+				{
+					"key": "deviceId",
+					"value": "87654346789",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "time",
+					"value": "{{timeNow}}",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "accStatus",
+					"value": "0",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "lng",
+					"value": "118.75{{$randomInt}}",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "lat",
+					"value": "31.971{{$randomInt}}",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "speed",
+					"value": "0",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"dataMode": "params",
+			"name": "ACC传感器",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1583568811612,
+			"version": 2,
+			"responses": [],
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200; \r\ntests['Response time is less than 500ms'] = responseTime < 500;",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "e281a1f8-fbb2-73f0-8292-136d5a471793",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://10.21.35.111:18066/smartenv-api/etl/track/put",
+			"queryParams": [],
+			"preRequestScript": "eval(globals.format_time);\npm.environment.set(\"timeNow\",timeNow);\n\nconst randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;\npm.environment.set(\"random120\",randomInt(0,120));\n\nvar temp = parseFloat(postman.getGlobalVariable(\"increaseid\"));\ntemp += 0.0001;\npostman.setGlobalVariable(\"increaseid\", temp.toFixed(8));",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "deviceId",
+					"value": "SS000001",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "time",
+					"value": "{{timeNow}}",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "lng",
+					"value": "{{increaseid}}",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "lat",
+					"value": "31.971{{$randomInt}}",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "speed",
+					"value": "{{random120}}",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				},
+				{
+					"key": "accStatus",
+					"value": "0",
+					"type": "text",
+					"enabled": true,
+					"description": ""
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200; \r\ntests['Response time is less than 500ms'] = responseTime < 500;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1583571618516,
+			"name": "环卫轨迹上报",
+			"description": "",
+			"collectionId": "c5d0c4fa-4ed9-f5ff-0414-45c274bc634c",
+			"responses": []
+		}
+	]
+}

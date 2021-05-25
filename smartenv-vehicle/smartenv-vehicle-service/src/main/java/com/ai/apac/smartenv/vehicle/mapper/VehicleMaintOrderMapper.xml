@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.vehicle.mapper.VehicleMaintOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="vehicleMaintOrderResultMap" type="com.ai.apac.smartenv.vehicle.entity.VehicleMaintOrder">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="apply_type" property="applyType"/>
+        <result column="vehicle_id" property="vehicleId"/>
+        <result column="vehicle_name" property="vehicleName"/>
+        <result column="vehicle_kind" property="vehicleKind"/>
+        <result column="vehicle_type" property="vehicleType"/>
+        <result column="apply_person_id" property="applyPersonId"/>
+        <result column="apply_person_name" property="applyPersonName"/>
+        <result column="apply_person_dept" property="applyPersonDept"/>
+        <result column="apply_job_num" property="applyJobNum"/>
+        <result column="maint_type" property="maintType"/>
+        <result column="maint_reason" property="maintReason"/>
+        <result column="picture" property="picture"/>
+        <result column="maint_amount" property="maintAmount"/>
+        <result column="maint_address" property="maintAddress"/>
+        <result column="maint_date" property="maintDate"/>
+        <result column="maint_context" property="maintContext"/>
+        <result column="maint_picture" property="maintPicture"/>
+        <result column="maint_finish_date" property="maintFinishDate"/>
+        <result column="maint_finish_price" property="maintFinishPrice"/>
+        <result column="maint_finish_context" property="maintFinishContext"/>
+        <result column="maint_finish_picture" property="maintFinishPicture"/>
+        <result column="workflow_id" property="workflowId"/>
+        <result column="ext3" property="ext3"/>
+        <result column="ext2" property="ext2"/>
+        <result column="ext1" property="ext1"/>
+    </resultMap>
+
+
+    <select id="selectVehicleMaintOrderPage" resultMap="vehicleMaintOrderResultMap">
+        select * from ai_vehicle_maint_order where is_deleted = 0
+    </select>
+    <resultMap id="vehicleMaintOrderMilestoneResultMap" type="com.ai.apac.smartenv.vehicle.entity.VehicleMaintOrderMilestone">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="apply_type" property="applyType"/>
+        <result column="vehicle_id" property="vehicleId"/>
+        <result column="vehicle_name" property="vehicleName"/>
+        <result column="vehicle_kind" property="vehicleKind"/>
+        <result column="vehicle_type" property="vehicleType"/>
+        <result column="apply_person_id" property="applyPersonId"/>
+        <result column="apply_person_name" property="applyPersonName"/>
+        <result column="apply_person_dept" property="applyPersonDept"/>
+        <result column="apply_job_num" property="applyJobNum"/>
+        <result column="maint_type" property="maintType"/>
+        <result column="maint_reason" property="maintReason"/>
+        <result column="mileage" property="mileage"/>
+        <result column="picture" property="picture"/>
+        <result column="maint_amount" property="maintAmount"/>
+        <result column="maint_address" property="maintAddress"/>
+        <result column="maint_date" property="maintDate"/>
+        <result column="maint_context" property="maintContext"/>
+        <result column="maint_picture" property="maintPicture"/>
+        <result column="maint_finish_date" property="maintFinishDate"/>
+        <result column="maint_finish_price" property="maintFinishPrice"/>
+        <result column="maint_finish_context" property="maintFinishContext"/>
+        <result column="maint_finish_picture" property="maintFinishPicture"/>
+        <result column="workflow_id" property="workflowId"/>
+        <result column="ext3" property="ext3"/>
+        <result column="ext2" property="ext2"/>
+        <result column="ext1" property="ext1"/>
+        <collection property="vehicleMaintMilestones" resultMap="vehicleMaintMilestones"/>
+    </resultMap>
+    <resultMap id="vehicleMaintMilestones" type="com.ai.apac.smartenv.vehicle.entity.VehicleMaintOrderMileStoneQry">
+        <id column="milestone_id" property="id"/>
+        <result column="assignment_id" property="assignmentId"/>
+        <result column="assignment_name" property="assignmentName"/>
+        <result column="assignment_job_num" property="assignmentJobNum"/>
+        <result column="done_result" property="doneResult"/>
+        <result column="done_remark" property="doneRemark"/>
+        <result column="description" property="description"/>
+        <result column="task_define_name" property="taskDefineName"/>
+        <result column="task_id" property="taskId"/>
+        <result column="update_time" property="doneTime"/>
+
+    </resultMap>
+    <select id="selectVehicleMaintOrderMilestone" resultMap="vehicleMaintOrderMilestoneResultMap" >
+      select
+      a.*,
+      b.id as milestone_id,
+      b.assignment_id,
+      b.assignment_name,
+      b.assignment_job_num,
+      b.done_result,
+      b.done_remark,
+      b.task_define_name,
+      b.task_id,b.update_time done_time
+      from
+      ai_vehicle_maint_order a
+      left join ai_vehicle_maint_milestone b on a.id = b.order_id where 1 = 1
+        <if test="orderId != null" >
+      and a.id = #{orderId}
+        </if>
+        <if test="personId != null" >
+           and a.apply_person_id = #{personId}
+        </if>
+      <if test="orderStatusList != null" >
+        and a.status in
+          <foreach collection="list" item="orderStatusList" index="index" open="(" close=")" separator=",">
+              #{orderStatusList}
+          </foreach>
+      </if>
+        <if test="doneResult != null" >
+            and b.done_result = #{doneResult}
+        </if>
+
+        ORDER BY b.create_time desc
+    </select>
+    <select id="queryVehicleMaintOrder" resultMap="vehicleMaintOrderMilestoneResultMap" >
+        select
+        a.*,
+        b.id as milestone_id,
+        b.assignment_id,
+        b.assignment_name,
+        b.assignment_job_num,
+        b.done_result,
+        b.done_remark,
+        b.task_define_name,
+        b.task_id
+        from
+        ai_vehicle_maint_order a
+        left join ai_vehicle_maint_milestone b on a.id = b.order_id
+        <if test="ew.emptyOfWhere == false">
+            ${ew.customSqlSegment}
+        </if>
+
+    </select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.assessment.mapper.KpiCatalogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="kpiCatalogResultMap" type="com.ai.apac.smartenv.assessment.entity.KpiCatalog">
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="id" property="id"/>
+        <result column="catalog_name" property="catalogName"/>
+        <result column="catalog_level" property="catalogLevel"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <resultMap id="treeNodeResultMap" type="org.springblade.core.tool.node.TreeNode">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="title" property="title"/>
+        <result column="value" property="value"/>
+        <result column="key" property="key"/>
+        <result column="has_children" property="hasChildren"/>
+    </resultMap>
+
+
+    <select id="selectKpiCatalogPage" resultMap="kpiCatalogResultMap">
+        select * from ai_kpi_catalog where is_deleted = 0
+    </select>
+
+    <select id="tree" resultMap="treeNodeResultMap">
+        select id, parent_id, catalog_name as title, id as "value", id as "key" from ai_kpi_catalog where is_deleted = 0
+        ORDER BY sort
+    </select>
+
+</mapper>

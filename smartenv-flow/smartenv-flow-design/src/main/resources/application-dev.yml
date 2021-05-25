@@ -1,0 +1,15 @@
+#数据源配置
+spring:
+  datasource:
+    # MySql
+    url: jdbc:mysql://10.21.33.235:3306/smartenv?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: smartenv
+    password: 123456
+    # PostgreSQL
+    #url: jdbc:postgresql://127.0.0.1:5432/bladex_flow
+    #username: postgres
+    #password: 123456
+    # Oracle
+    #url: jdbc:oracle:thin:@221.181.92.171:49161:xe
+    #username: BLADEX_FLOW
+    #password: oracle

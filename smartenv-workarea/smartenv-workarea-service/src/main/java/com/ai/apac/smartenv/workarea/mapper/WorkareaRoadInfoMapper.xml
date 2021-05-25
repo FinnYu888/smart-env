@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.workarea.mapper.WorkareaRoadInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="workareaRoadInfoResultMap" type="com.ai.apac.smartenv.workarea.entity.WorkareaRoadInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="workarea_id" property="workareaId"/>
+        <result column="start_and_end" property="startAndEnd"/>
+        <result column="motorway_length" property="motorwayLength"/>
+        <result column="motorway_wight" property="motorwayWight"/>
+        <result column="non_motorized_length" property="nonMotorizedLength"/>
+        <result column="non_motorized_weight" property="nonMotorizedWeight"/>
+        <result column="sidewalk_length" property="sidewalkLength"/>
+        <result column="sidewalk_wight" property="sidewalkWight"/>
+        <result column="greenbelt_length" property="greenbeltLength"/>
+        <result column="greenbelt_weight" property="greenbeltWeight"/>
+        <result column="front_road_length" property="frontRoadLength"/>
+        <result column="front_road_weigth" property="frontRoadWeigth"/>
+        <result column="fence_length" property="fenceLength"/>
+        <result column="area" property="area"/>
+        <result column="work_area" property="workArea"/>
+        <result column="remark" property="remark"/>
+        <result column="road_level" property="roadLevel"/>
+    </resultMap>
+
+
+    <select id="selectWorkareaRoadInfoPage" resultMap="workareaRoadInfoResultMap">
+        select * from ai_workarea_road_info where is_deleted = 0
+    </select>
+
+
+    <resultMap id="roadAreaResultMap" type="com.ai.apac.smartenv.workarea.dto.RoadAreaDTO">
+        <result column="road_level" property="roadLevel"/>
+        <result column="road_area" property="roadArea"/>
+    </resultMap>
+
+    <select id="getRoadAreaByTenantId" resultMap="roadAreaResultMap">
+        SELECT
+        road_level,
+        SUM(motorway_length * motorway_wight) AS road_area
+        FROM
+            `ai_workarea_road_info`
+            WHERE tenant_id = #{tenantId}
+            AND road_level IS NOT NULL
+            GROUP BY road_level
+    </select>
+
+</mapper>

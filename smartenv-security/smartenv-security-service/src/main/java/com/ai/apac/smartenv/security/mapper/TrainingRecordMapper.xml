@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.security.mapper.TrainingRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="trainingRecordResultMap" type="com.ai.apac.smartenv.security.entity.TrainingRecord">
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="id" property="id"/>
+        <result column="training_topic" property="trainingTopic"/>
+        <result column="training_content" property="trainingContent"/>
+        <result column="organizer" property="organizer"/>
+        <result column="speaker" property="speaker"/>
+        <result column="training_start_time" property="trainingStartTime"/>
+        <result column="training_end_time" property="trainingEndTime"/>
+        <result column="training_location" property="trainingLocation"/>
+        <result column="training_type_id" property="trainingTypeId"/>
+        <result column="training_type_name" property="trainingTypeName"/>
+        <result column="training_object_batch_id" property="trainingObjectBatchId"/>
+        <result column="training_attach_batch_id" property="trainingAttachBatchId"/>
+    </resultMap>
+
+
+    <select id="selectTrainingRecordPage" resultMap="trainingRecordResultMap">
+        select * from ai_training_record where is_deleted = 0
+    </select>
+
+</mapper>

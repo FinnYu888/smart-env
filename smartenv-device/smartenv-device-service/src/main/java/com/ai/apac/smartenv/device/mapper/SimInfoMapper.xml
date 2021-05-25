@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.device.mapper.SimInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="simInfoResultMap" type="com.ai.apac.smartenv.device.entity.SimInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="sim_code" property="simCode"/>
+        <result column="sim_code2" property="simCode2"/>
+        <result column="sim_number" property="simNumber"/>
+        <result column="sim_type" property="simType"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+
+    <select id="selectSimInfoPage" resultMap="simInfoResultMap">
+        select * from ai_sim_info where is_deleted = 0
+    </select>
+
+
+    <select id="listUnBindSimInfo" resultMap="simInfoResultMap">
+        SELECT
+        *
+        FROM
+        ai_sim_info i
+        WHERE 1 = 1
+        <if test="simCode!=null and simCode!=''">
+            AND i.`sim_code` LIKE CONCAT('%', #{simCode},'%')
+        </if>
+        <if test="simNumber!=null and simNumber!=''">
+            AND i.`sim_number` LIKE CONCAT('%', #{simNumber},'%')
+        </if>
+        <if test="simType!=null and simType!=''">
+            AND i.`sim_type` = #{simType}
+        </if>
+        AND i.`tenant_id` = #{tenantId}
+        AND i.`is_deleted` = '0'
+        AND i.`id` NOT IN
+        (SELECT DISTINCT
+        r.`sim_id`
+        FROM
+        `ai_sim_rel` r
+        WHERE r.`is_deleted` = '0'
+        AND r.`tenant_id` = #{tenantId})
+    </select>
+
+</mapper>

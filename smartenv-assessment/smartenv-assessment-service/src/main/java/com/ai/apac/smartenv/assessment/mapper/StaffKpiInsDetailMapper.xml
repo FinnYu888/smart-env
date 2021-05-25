@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.assessment.mapper.StaffKpiInsDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="staffKpiInsDetailResultMap" type="com.ai.apac.smartenv.assessment.entity.StaffKpiInsDetail">
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="id" property="id"/>
+        <result column="kpi_ins_id" property="kpiInsId"/>
+        <result column="kpi_tpl_detail_id" property="kpiTplDetailId"/>
+        <result column="score" property="score"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+
+    <select id="selectStaffKpiInsDetailPage" resultMap="staffKpiInsDetailResultMap">
+        select * from ai_staff_kpi_ins_detail where is_deleted = 0
+    </select>
+
+</mapper>

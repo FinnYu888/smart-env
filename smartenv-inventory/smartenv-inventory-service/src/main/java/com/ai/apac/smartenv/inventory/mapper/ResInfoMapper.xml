@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.inventory.mapper.ResInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resInfoResultMap" type="com.ai.apac.smartenv.inventory.entity.ResInfo">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="res_type" property="resType"/>
+        <result column="serial_number" property="serialNumber"/>
+        <result column="batch_id" property="batchId"/>
+        <result column="res_spec_id" property="resSpecId"/>
+        <result column="inventory_id" property="inventoryId"/>
+        <result column="reservation_recipient" property="reservationRecipient"/>
+        <result column="reservation_recipient_type" property="reservationRecipientType"/>
+        <result column="reserved_valid_date" property="reservedValidDate"/>
+        <result column="reserved_expire_date" property="reservedExpireDate"/>
+        <result column="amount" property="amount"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="storage_time" property="storageTime"/>
+        <result column="used_time" property="usedTime"/>
+        <result column="manage_state" property="manageState"/>
+        <result column="manage_state_reason_desc" property="manageStateReasonDesc"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+
+    <select id="selectResInfoPage" resultMap="resInfoResultMap">
+        select * from ai_res_info where is_deleted = 0
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resInfoQueryResultMap" type="com.ai.apac.smartenv.inventory.entity.ResInfoQuery">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="res_type" property="resType"/>
+        <result column="res_spec_id" property="resSpecId"/>
+        <result column="inventory_id" property="inventoryId"/>
+        <result column="amount" property="amount"/>
+        <result column="manage_state" property="manageState"/>
+        <result column="type_name" property="typeName"/>
+        <result column="spec_name" property="specName"/>
+        <result column="unit" property="unit"/>
+    </resultMap>
+    <select id="selectResInfoQueryPage" resultMap="resInfoQueryResultMap">
+        SELECT
+  info.id,
+  info.res_type,
+  info.res_spec_id,
+  info.amount,
+  info.inventory_id,
+  info.manage_state,
+  tp.type_name,
+  spec.spec_name,
+  spec.unit
+FROM
+  ai_res_info info
+  LEFT JOIN ai_res_type tp
+    ON info.res_type = tp.id
+  LEFT JOIN ai_res_spec spec
+    ON info.res_spec_id = spec.id
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+</mapper>

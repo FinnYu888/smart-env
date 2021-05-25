@@ -1,0 +1,61 @@
+server:
+  port: 8121
+
+spring:
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #driver-class-name: org.postgresql.Driver
+    #driver-class-name: oracle.jdbc.OracleDriver
+    druid:
+      # MySql、PostgreSQL校验
+      validation-query: select 1
+      # Oracle校验
+      #validation-query: select 1 from dual
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 60000
+      validation-query-timeout: 2000
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      filters: stat,wall
+      stat-view-servlet:
+        enabled: true
+        login-username: blade
+        login-password: 1qaz@WSX
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*'
+        session-stat-enable: true
+        session-stat-max-count: 10
+  main:
+    allow-bean-definition-overriding: true
+  devtools:
+    add-properties: false
+flowable:
+  activity-font-name: \u5B8B\u4F53
+  label-font-name: \u5B8B\u4F53
+  annotation-font-name: \u5B8B\u4F53
+  check-process-definitions: false
+  common:
+    app:
+      idm-url: http://127.0.0.1:9999
+      idm-admin:
+        user: admin
+        password: test
+baidumap:
+  config:
+    ak: G1WXgBRsFgwwGaT5gbp7l0Eo4bGDgeVT
+    sk: TvZdCek9mGraKRtcSVwWexv5k6aOukks
+## 大数据相关配置
+bigdata:
+  config:
+    addr: http://10.21.35.111:18066/
+

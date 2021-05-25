@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.facility.mapper.FacilityTranstationDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="facilityTranstationDetailResultMap"
+               type="com.ai.apac.smartenv.facility.entity.FacilityTranstationDetail">
+        <id column="ID" property="id"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="FACILITY_ID" property="facilityId"/>
+        <result column="TRANSFER_TIME" property="transferTime"/>
+        <result column="GARBAGE_TYPE" property="garbageType"/>
+        <result column="GARBAGE_WEIGHT" property="garbageWeight"/>
+        <result column="TRANSFER_TIMES" property="transferTimes"/>
+        <result column="DEVICE_ID" property="deviceId"/>
+        <result column="TENANT_ID" property="tenantId"/>
+        <result column="ODOR_LEVEL" property="odorLevel"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="DONE_DATE" property="doneDate"/>
+        <result column="OP_ID" property="opId"/>
+        <result column="ORG_ID" property="orgId"/>
+        <result column="CREATE_USER" property="createUser"/>
+        <result column="UPDATE_USER" property="updateUser"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+    </resultMap>
+
+
+    <select id="selectFacilityTranstationDetailPage" resultMap="facilityTranstationDetailResultMap">
+        select * from ai_facility_transtation_detail where is_deleted = 0
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="transtationEveryDayMap" type="com.ai.apac.smartenv.facility.entity.TranstationEveryDay">
+        <id column="ID" property="id"/>
+
+        <result column="TRANSFER_TIME" property="transferTime"/>
+
+        <result column="GARBAGE_WEIGHT" property="garbageWeight"/>
+        <result column="TRANSFER_TIMES" property="transferTimes"/>
+
+    </resultMap>
+    <select id="staticsTranstationEveryDay" resultMap="transtationEveryDayMap">
+        SELECT
+        DATE_FORMAT(TRANSFER_TIME,'%Y-%m-%d') transfer_time,
+        SUM(garbage_weight) garbage_weight,
+        SUM(TRANSFER_TIMES) TRANSFER_TIMES,
+        CEILING(RAND() * 100000000000000000) AS id
+        FROM
+        ai_facility_transtation_detail
+        WHERE is_deleted = 0
+        AND (
+        <if test='startDate != null'> transfer_time &gt;= #{startDate} AND </if>
+         transfer_time &lt;= #{endDate}
+        AND facility_Id = #{facilityId}
+        )
+        GROUP BY DATE_FORMAT(TRANSFER_TIME,'%Y-%m-%d')
+        ORDER BY transfer_time DESC
+
+    </select>
+    <select id="listfacilityTranstationDetail" resultMap="facilityTranstationDetailResultMap">
+        select * from ai_facility_transtation_detail where is_deleted = 0 AND facility_id = #{facilityId}
+        <if test='startDate != null'>AND TRANSFER_TIME &gt;= '${startDate}'</if>
+        <if test='endDate != null'>AND TRANSFER_TIME &lt;= '${endDate}'</if>
+        <if test='garbageType != null'>AND GARBAGE_TYPE = #{garbageType}</if>order by transfer_time
+    </select>
+
+
+    <resultMap id="lastDaysGarbageAmountMap" type="com.ai.apac.smartenv.facility.entity.GarbageAmountDaily">
+
+        <result column="GARBAGE_AMOUNT" property="garbageAmount"/>
+        <result column="TRANSFER_DATE" property="transferDate"/>
+        <result column="GARBAGE_TYPE" property="garbageType"/>
+    </resultMap>
+
+    <resultMap id="lastDaysGarbageAmountGroupByRegionResultMap" type="com.ai.apac.smartenv.facility.vo.LastDaysRegionGarbageAmountVO">
+
+        <result column="REGION_ID" property="regionId"/>
+        <result column="GARBAGE_AMOUNT" property="garbageAmount"/>
+    </resultMap>
+
+    <select id="lastDaysGarbageAmount" resultMap="lastDaysGarbageAmountMap">
+        SELECT
+    SUM(GARBAGE_WEIGHT*transfer_times) AS GARBAGE_AMOUNT,DATE(TRANSFER_TIME) AS TRANSFER_DATE,GARBAGE_TYPE
+FROM
+  `ai_facility_transtation_detail`
+WHERE GARBAGE_TYPE = #{garbageType}
+  AND TRANSFER_TIME BETWEEN #{startDate}
+  AND #{endDate}
+  AND IS_DELETED = '0'
+  AND TENANT_ID = #{tenantId}
+GROUP BY DATE(TRANSFER_TIME)
+ORDER BY DATE(TRANSFER_TIME)
+
+    </select>
+
+
+    <select id="lastDaysGarbageAmountGroupByRegion" resultMap="lastDaysGarbageAmountGroupByRegionResultMap">
+SELECT
+  i.REGION_ID , SUM(d.GARBAGE_WEIGHT * d.transfer_times) AS GARBAGE_AMOUNT
+FROM
+  ai_facility_transtation_detail d LEFT JOIN ai_facility_info i ON d.FACILITY_ID = i.id
+WHERE 1 = 1
+   AND d.TRANSFER_TIME BETWEEN #{startDate}
+  AND #{endDate}
+  AND i.IS_DELETED = '0'
+ AND i.TENANT_ID = #{tenantId}
+ GROUP BY i.REGION_ID ORDER BY GARBAGE_AMOUNT DESC;
+
+    </select>
+
+</mapper>

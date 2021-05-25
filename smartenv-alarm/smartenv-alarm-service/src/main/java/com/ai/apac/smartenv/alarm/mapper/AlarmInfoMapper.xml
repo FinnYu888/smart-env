@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.alarm.mapper.AlarmInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="alarmInfoResultMap" type="com.ai.apac.smartenv.alarm.entity.AlarmInfo">
+        <id column="id" property="id"/>
+        <result column="uuid" property="uuid"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="device_code" property="deviceCode"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="entity_type" property="entityType"/>
+        <result column="entity_name" property="entityName"/>
+        <result column="entity_define" property="entityDefine"/>
+        <result column="rule_id" property="ruleId"/>
+        <result column="rule_name" property="ruleName"/>
+        <result column="rule_alarm_level" property="ruleAlarmLevel"/>
+        <result column="rule_category_id" property="ruleCategoryId"/>
+        <result column="rule_category_code" property="ruleCategoryCode"/>
+        <result column="parent_rule_category_id" property="parentRuleCategoryId"/>
+        <result column="alarm_time" property="alarmTime"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitudinal" property="latitudinal"/>
+        <result column="data" property="data"/>
+        <result column="is_handle" property="isHandle"/>
+        <result column="alarm_message" property="alarmMessage"/>
+        <result column="alarm_check" property="alarmCheck"/>
+        <result column="check_remark" property="checkRemark"/>
+        <result column="inform_type" property="informType"/>
+    </resultMap>
+
+
+    <select id="selectAlarmInfoPage" resultMap="alarmInfoResultMap">
+        select * from ai_alarm_info where is_deleted = 0 order by alarm_time desc
+    </select>
+
+    <insert id="insertNewAlarmInfo" parameterType="com.ai.apac.smartenv.alarm.entity.AlarmInfo">
+        insert into ai_alarm_info (
+                id,
+                uuid,
+                create_user,
+                update_user,
+                create_time,
+                update_time,
+                create_dept,
+                status,
+                is_deleted,
+                tenant_id,
+                device_code,
+                entity_id,
+                entity_type,
+                entity_name,
+                entity_define,
+                rule_id,
+                rule_name,
+                rule_alarm_level,
+                rule_category_id,
+                rule_category_code,
+                parent_rule_category_id,
+                alarm_time,
+                longitude,
+                latitudinal,
+                data,
+                is_handle,
+                alarm_message,
+                alarm_check,
+                check_remark,
+                inform_type)
+        values (
+                #{id,jdbcType=BIGINT},
+                #{uuid,jdbcType=VARCHAR},
+                #{createUser,jdbcType=BIGINT},
+                #{updateUser,jdbcType=BIGINT},
+                #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP},
+                #{createDept,jdbcType=BIGINT},
+                #{status,jdbcType=INTEGER},
+                #{isDeleted,jdbcType=INTEGER},
+                #{isDeleted,jdbcType=INTEGER},
+                #{deviceCode,jdbcType=VARCHAR},
+                #{entityId,jdbcType=BIGINT},
+                #{entityType,jdbcType=BIGINT},
+                #{entityName,jdbcType=VARCHAR},
+                #{entityDefine,jdbcType=VARCHAR},
+                #{ruleId,jdbcType=BIGINT},
+                #{ruleName,jdbcType=VARCHAR},
+                #{ruleAlarmLevel,jdbcType=INTEGER},
+                #{ruleCategoryId,jdbcType=BIGINT},
+                #{ruleCategoryCode,jdbcType=VARCHAR},
+                #{parentRuleCategoryId,jdbcType=BIGINT},
+                #{alarmTime,jdbcType=TIMESTAMP},
+                #{longitude,jdbcType=VARCHAR},
+                #{latitudinal,jdbcType=VARCHAR},
+                #{data,jdbcType=LONGVARCHAR},
+                #{isHandle,jdbcType=INTEGER},
+                #{alarmMessage,jdbcType=VARCHAR},
+                #{alarmCheck,jdbcType=INTEGER},
+                #{checkRemark,jdbcType=VARCHAR},
+                #{informType,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>

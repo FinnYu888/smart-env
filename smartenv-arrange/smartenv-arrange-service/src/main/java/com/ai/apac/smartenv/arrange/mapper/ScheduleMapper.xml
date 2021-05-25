@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.arrange.mapper.ScheduleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="scheduleResultMap" type="com.ai.apac.smartenv.arrange.entity.Schedule">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="schedule_name" property="scheduleName"/>
+        <result column="schedule_type" property="scheduleType"/>
+        <result column="schedule_monday" property="scheduleMonday"/>
+        <result column="schedule_Tuesday" property="scheduleTuesday"/>
+        <result column="schedule_Wednesday" property="scheduleWednesday"/>
+        <result column="schedule_Thursday" property="scheduleThursday"/>
+        <result column="schedule_Friday" property="scheduleFriday"/>
+        <result column="schedule_Saturday" property="scheduleSaturday"/>
+        <result column="schedule_Sunday" property="scheduleSunday"/>
+        <result column="need_holiday" property="needHoliday"/>
+        <result column="schedule_begin_time" property="scheduleBeginTime"/>
+        <result column="schedule_end_time" property="scheduleEndTime"/>
+        <result column="breaks_begin_time" property="breaksBeginTime"/>
+        <result column="breaks_end_time" property="breaksEndTime"/>
+        <result column="begin_float_time" property="beginFloatTime"/>
+        <result column="end_float_time" property="endFloatTime"/>
+        <result column="attendance_type" property="attendanceType"/>
+    </resultMap>
+
+
+    <select id="selectSchedulePage" resultMap="scheduleResultMap">
+        select * from ai_schedule where is_deleted = 0
+    </select>
+
+	<update id="updateByScheduleById" parameterType="map">
+	    update ai_schedule
+	    <set>
+	        schedule_name = #{record.scheduleName},
+	        schedule_type = #{record.scheduleType},
+	        schedule_monday = #{record.scheduleMonday},
+	        schedule_Tuesday = #{record.scheduleTuesday},
+	        schedule_Wednesday = #{record.scheduleWednesday},
+	        schedule_Thursday = #{record.scheduleThursday},
+	        schedule_Friday = #{record.scheduleFriday},
+	        schedule_Saturday = #{record.scheduleSaturday},
+	        schedule_Sunday = #{record.scheduleSunday},
+	        need_holiday = #{record.needHoliday},
+	        schedule_begin_time = #{record.scheduleBeginTime},
+	        schedule_end_time = #{record.scheduleEndTime},
+	        breaks_begin_time = #{record.breaksBeginTime},
+	        breaks_end_time = #{record.breaksEndTime},
+	        begin_float_time = #{record.beginFloatTime},
+	        end_float_time = #{record.endFloatTime},
+	        attendance_type = #{record.attendanceType},
+	        update_user = #{record.updateUser},
+	        update_time = #{record.updateTime}
+	    </set>
+	    where id = #{record.id}
+	  </update>
+</mapper>

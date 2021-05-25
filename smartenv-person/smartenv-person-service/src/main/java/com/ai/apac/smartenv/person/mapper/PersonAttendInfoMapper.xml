@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.person.mapper.PersonAttendInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="personAttendInfoResultMap" type="com.ai.apac.smartenv.person.entity.PersonAttendInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="person_id" property="personId"/>
+        <result column="person_name" property="personName"/>
+        <result column="person_org_id" property="personOrgId"/>
+        <result column="attend_time" property="attendTime"/>
+        <result column="up_time" property="upTime"/>
+        <result column="off_time" property="offTime"/>
+        <result column="work_duration" property="workDuration"/>
+        <result column="work_miles" property="workMiles"/>
+    </resultMap>
+
+
+    <select id="selectPersonAttendInfoPage" resultMap="personAttendInfoResultMap">
+        select * from ai_person_attend_info where is_deleted = 0
+    </select>
+
+</mapper>

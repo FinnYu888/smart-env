@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ResApplyOrder" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8cdac085-7703-44d6-b07e-a25ca452a94c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Style1" fontName="宋体" fontSize="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+	<subDataset name="Dataset1" uuid="ad6d1a04-6439-4e1a-bb12-efde47a21074">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<subDataset name="Dataset2" uuid="c50d53d8-d517-49a1-b3be-3d324276b563">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="orderId" class="java.lang.Long"/>
+	<parameter name="inventoryName" class="java.lang.String"/>
+	<parameter name="departmentName" class="java.lang.String"/>
+	<parameter name="applyName" class="java.lang.String"/>
+	<parameter name="operaterName" class="java.lang.String"/>
+	<parameter name="operateTime" class="java.lang.String"/>
+	<parameter name="totalNum" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="typeName" class="java.lang.String"/>
+	<field name="specName" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Integer"/>
+	<field name="unit" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="251" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="0" width="370" height="40" uuid="e6f13996-a54b-49dd-aeb3-026650924bcb"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="23" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[物资出库单]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="50" width="340" height="30" uuid="56949432-c30a-4e44-9ec6-5caeb57bce2b"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font fontName="宋体" size="16" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="30" y="120" width="100" height="30" uuid="b5882be4-bc39-4373-88bf-b5ed04b01eed"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orderId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Style1" x="30" y="90" width="100" height="30" uuid="a5a23d81-c8a6-4d54-b19b-f4c70e6ea57b"/>
+				<textElement rotation="None"/>
+				<text><![CDATA[申请单号]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="210" y="90" width="100" height="30" uuid="1b12561c-08d2-4e40-b566-5fb424737efd"/>
+				<text><![CDATA[仓库]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="400" y="90" width="100" height="30" uuid="7e55a8b5-c8e8-4ff3-ad0e-55e543eeacd8"/>
+				<text><![CDATA[领用部门]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Style1" x="210" y="120" width="100" height="30" uuid="db3ed1c2-1857-4bfc-b5b7-90287aa640d7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{inventoryName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="400" y="120" width="100" height="30" uuid="41f9e644-05ff-40d6-a34f-ab7df87829b7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{departmentName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Style1" x="30" y="150" width="100" height="30" uuid="212a8ae8-ad7d-4816-8cc6-c6a1b3353aa4"/>
+				<text><![CDATA[领用人]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="210" y="150" width="100" height="30" uuid="894d5e1d-8f21-4f69-8cb7-90459920fee5"/>
+				<text><![CDATA[操作员]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="400" y="150" width="100" height="30" uuid="10b34df7-145b-4c0b-a40c-e788232e0364"/>
+				<text><![CDATA[操作时间]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Style1" x="30" y="180" width="100" height="30" uuid="af6ba9df-6bfb-48f6-81b9-38c9db568b44"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{applyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="210" y="180" width="100" height="30" uuid="330a59cb-a12f-48dd-abe4-ea412a267736"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{operaterName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="400" y="180" width="100" height="30" uuid="d41ff87b-345e-4e62-a0f1-db7e65b2721d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{operateTime}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="68">
+			<staticText>
+				<reportElement style="Style1" x="380" y="38" width="100" height="30" uuid="85c8fd01-5485-449a-8c6e-4cb5cc407129"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[单位]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="-1" width="110" height="30" uuid="fc046f76-eaca-4767-bd78-dfa3db0842fa"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="宋体" size="16" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[出库物品列表]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="77" y="38" width="100" height="30" uuid="9153ea2d-e331-43ac-9150-7cc112adac5c"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[物品类型]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="178" y="38" width="100" height="30" uuid="6d10fb96-e522-42bf-8d05-8a025f5afd8f"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[物品规格]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Style1" x="279" y="38" width="100" height="30" uuid="6a8d0e15-a197-433e-86fe-680e8529012d"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[数量]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement style="Style1" x="77" y="0" width="100" height="30" uuid="c3b7a506-255d-48c4-a3b9-741b9a450d30"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{typeName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="178" y="0" width="100" height="30" uuid="b864b71a-5274-46d2-882d-847a8a3a2240"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{specName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="279" y="0" width="100" height="30" uuid="da52e177-6b99-4767-9f7f-b183f885444a"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="380" y="0" width="100" height="30" uuid="acf74863-7477-47fa-b1e9-85a14bd629f7"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="37">
+			<staticText>
+				<reportElement style="Style1" x="80" y="2" width="30" height="30" uuid="e58aa379-6d46-49ab-b706-908709300963"/>
+				<text><![CDATA[合计：]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="2" width="30" height="30" uuid="5a389d97-4214-4a90-ab4e-5a84625524d9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalNum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Style1" x="150" y="2" width="70" height="30" uuid="461f61cd-598a-4194-aabc-b22c1efd89f5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[项物品]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<lastPageFooter>
+		<band height="80">
+			<staticText>
+				<reportElement x="360" y="10" width="100" height="30" uuid="03820f54-4c12-4d8e-b2c0-aed6e169bd41"/>
+				<textElement>
+					<font pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[领用人签名：]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement positionType="FixRelativeToBottom" x="420" y="30" width="115" height="1" uuid="eb0ad07a-5cab-4b90-aeaf-31f993b2d39c"/>
+			</line>
+		</band>
+	</lastPageFooter>
+</jasperReport>

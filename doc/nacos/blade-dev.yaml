@@ -1,0 +1,304 @@
+#spring配置
+spring:
+  jackson:
+    time-zone: GMT+8
+  redis:
+    ##redis 单机环境配置
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    ssl: false
+    ##redis 集群环境配置
+    #cluster:
+    #  nodes: 127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003
+    #  commandTimeout: 5000
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #driver-class-name: org.postgresql.Driver
+    #driver-class-name: oracle.jdbc.OracleDriver
+    druid:
+      # MySql、PostgreSQL校验
+      validation-query: select 1
+      # Oracle校验
+      #validation-query: select 1 from dual
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: smartenv
+      password:
+      user:
+  mail:
+    host: smtp.exmail.qq.com
+    port: 465
+    username: notice@asiainfo.sg
+    password: Aisg3456&
+    protocol: smtp
+    test-connection: true
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.enable: true
+      mail.display.sendmail: 智慧环卫管理平台
+  cloud:
+    # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
+    stream:
+      default-binder: smartenv
+      binders:
+        smartenv:
+          type: rabbit
+          Defaulys: true
+          environment: # 设置 Binder 的环境配置
+            # 如果是 RabbitMQ 类型的时候，则对应的是 RabbitProperties 类
+            spring:
+              rabbitmq:
+                #                host: 10.21.33.235 # RabbitMQ 服务的地址
+                host: 127.0.0.1 # RabbitMQ 服务的地址
+                port: 5672 # RabbitMQ 服务的端口
+                username: guest # RabbitMQ 服务的账号
+                password: guest # RabbitMQ 服务的账号
+        smartenv-minicreate:
+          type: kafka
+          Defaulys: false
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      brokers: 47.99.209.234:9092         #Kafka的消息中间件服务器
+                      auto-create-topics: false        #如果设置为false,就不会自动创建Topic 有可能你Topic还没创建就直接调用了。
+      bindings:
+        pushc-email-output:
+          destination: PUSHC-TOPIC # 目的地。这里使用 RabbitMQ Exchange
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv # 设置使用的 Binder 名字
+        pushc-email-input:
+          destination: PUSHC-TOPIC # 目的地。这里使用 RabbitMQ Exchange
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv # 设置使用的 Binder 名字
+          group: pushc-email-counsumer-group-1 # 消费者分组
+        pushc-assessEvent-output:
+          destination: PUSHC-ASSESS-EVENT # 目的地。这里使用 RabbitMQ Exchange
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv # 设置使用的 Binder 名字
+        pushc-assessEvent-input:
+          destination: PUSHC-ASSESS-EVENT # 目的地。这里使用 RabbitMQ Exchange
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv # 设置使用的 Binder 名字
+          group: pushc-assessEvent-counsumer-group # 消费者分组
+        mp-assessEvent-output: # 微信公众号平台接收待发送事件消息通道
+          destination: MP-ASSESS-EVENT
+          content-type: application/json
+          binder: smartenv
+        pushc-alarmEvent-output:
+          destination: PUSHC-ALARM-EVENT # 目的地。这里使用 RabbitMQ Exchange
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv # 设置使用的 Binder 名字
+        pushc-alarmEvent-input:
+          destination: PUSHC-ALARM-EVENT # 目的地。这里使用 RabbitMQ Exchange
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv # 设置使用的 Binder 名字
+          group: pushc-alarmEvent-counsumer-group # 消费者分组
+        mp-alarmEvent-output: # 微信公众号平台接收待发送告警消息通道
+          destination: MP-ALARM-EVENT
+          content-type: application/json
+          binder: smartenv
+        watch-position:
+          destination: EXCHANGE_WATCH_LOCATION
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+          consumer:
+            exchangeType: topic
+          group: vehicle-position-dev
+        vehicle-position:
+          destination: EXCHANGE_VEHICLE
+          binder: smartenv
+          consumer:
+            exchangeType: topic
+          group: vehicle-position-dev
+        device-info:
+          destination: queue
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+          group: SENSOR-1
+        minicreate-initiative-alarm-input:
+          destination: lc_gps # 目的地。这里使用 Kafka Topic
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv-minicreate # 设置使用的 Binder 名字
+          group: lc-gps-group-gray # 消费者分组
+        minicreate-initiative-alarm-attachment-input:
+          destination: lc_ipsfas # 目的地。这里使用 Kafka Topic
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv-minicreate # 设置使用的 Binder 名字
+          group: lc-ipsfas-group-gray # 消费者分组
+        watch-sos-alarm-input:
+          destination: EXCHANGE_WATCH_SOS_ALARM
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+          consumer:
+            exchangeType: topic
+          group: watchSOS-gray
+        websocket-monitor-event-input: # websocket监听事件通道
+          destination: EXCHANGE_WEBSOCKET_MONITOR_EVENT
+          content-type: application/json
+          binder: smartenv
+        websocket-monitor-event-output: # websocket监听事件通道
+          destination: EXCHANGE_WEBSOCKET_MONITOR_EVENT
+          content-type: application/json
+          binder: smartenv
+        db-monitor-event-input: # 数据库监听事件通道
+          destination: DB_MONITOR_EVENT
+          content-type: application/json
+          binder: smartenv
+          group: db-event-counsumer-group # 消费者分组
+        db-monitor-event-output: # 数据库监听事件通道
+          destination: DB_MONITOR_EVENT
+          content-type: application/json
+          binder: smartenv
+
+#项目模块集中配置
+blade:
+  lock:
+    mode: single
+    node-address: redis://127.0.0.1:6379
+  #多租户配置
+  tenant:
+    column: tenant_id
+    enhance: true
+    #如下租户表的租户ID根据业务实现自己维护
+    exclude-tables:
+      - ai_alarm_rule_info
+      - ai_alarm_rule_ext
+      - ai_alarm_info
+  #通用开发生产环境数据库地址(特殊情况可在对应的子工程里配置覆盖)
+  datasource:
+    dev:
+      # MySql
+      url: jdbc:mysql://127.0.0.1:3306/smartenv_test?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      username: root
+      password: 123456
+    log:
+      dev:
+        # MySql
+        url: jdbc:mysql://10.21.35.126:31306/smartenv_log?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+        username: smartenv
+        password: smartenv@123
+    wechat:
+      dev:
+        # MySql
+        url: jdbc:mysql://10.21.35.126:31306/smartenv_wechat?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+        username: smartenv
+        password: smartenv@123
+  document:
+    resources:
+      - name: 授权管理
+        location: /smartenv-auth
+      # - name: 工作台模块
+      #   location: /smartenv-desk
+      - name: 用户管理
+        location: /smartenv-user
+      - name: 系统管理
+        location: /smartenv-system
+      - name: 排班管理
+        location: /smartenv-arrange
+      - name: 考核管理
+        location: /smartenv-assessment
+      - name: 设备管理
+        location: /smartenv-device
+      - name: 事件管理
+        location: /smartenv-event
+      - name: 设施管理
+        location: /smartenv-facility
+      - name: 库存管理
+        location: /smartenv-inventory
+      - name: omnic管理
+        location: /smartenv-omnic
+      - name: 人员管理
+        location: /smartenv-person
+      - name: 统计管理
+        location: /smartenv-statistic
+      - name: 车辆管理
+        location: /smartenv-vehicle
+      - name: 工作区域管理
+        location: /smartenv-workarea
+      - name: 绿化管理
+        location: /smartenv-green
+      - name: 对象存储
+        location: /smartenv-oss
+      - name: Websocket服务
+        location: /smartenv-websocket
+      - name: 告警管理
+        location: /smartenv-alarm
+      - name: 缓存管理
+        location: /smartenv-cache
+      - name: 地址域管理
+        location: /smartenv-address
+      - name: 日志管理
+        location: /blade-log
+      - name: 流程管理
+        location: /smartenv-flow
+      - name: 微信服务
+        location: /smartenv-wechat
+      - name: job服务
+        location: /smartenv-job
+
+#minio配置
+oss:
+  enable: true
+  name: minio
+  tenant-mode: false
+  endpoint: http://10.21.33.235:9001
+  access-key: minio
+  secret-key: minio123
+
+#天气API配置
+weather:
+  tianqiapi:
+    appId: 16162243
+    appSecret: PWiL9Irr
+
+smartenv:
+  app:
+    baseUrl: http://127.0.0.1
+
+mapapi:
+  config:
+    bdak: G1WXgBRsFgwwGaT5gbp7l0Eo4bGDgeVT #百度AK
+    bdJavascriptAK: hwSkU5CkNm1es5s9vzfs4LQxWDsz7ZoL
+    bdsk: TvZdCek9mGraKRtcSVwWexv5k6aOukks #百度SK
+    gdkey: e6a5b6def7d6836c110d34876d76dcea #高德Key
+    gdsig: 2e8c1a6a72817d5c679afd7338034665 #高德私钥
+    baiduBaseUrl: http://api.map.baidu.com #百度api baseurl
+    gaoDeBaseUrl: https://restapi.amap.com #高德api baseurl
+    baiduGeoCovUrl: /geoconv/v1/  #百度坐标转换url
+    baiduReverserGeocodingsUrl: /reverse_geocoding/v3/ #百度全球逆地理编码url
+    gaodeGeoCovUrl: /v3/assistant/coordinate/convert #高德坐标转换url
+    baiduStaticImageUrl: /staticimage/v2
+    baiduPlaceToCoordinatesUrl: /place/v2/search #地址转坐标url
+
+ribbon:
+  ConnectTimeout: 15000 #请求连接的超时时间，默认时间为1秒
+  ReadTimeout: 15000 #请求处理的超时时间
+
+## 大数据相关配置
+bigdata:
+  config:
+    addr: http://47.92.93.25:18085/
+
+## 微信相关
+wx:
+  miniapp:
+    configs:
+      - appid: wx9d33bcb12eba9f67
+        secret: fe687e244a0ed0b4be8835087acc42a0
+        token:
+        aesKey:
+        msgDataFormat:
+dmp:
+  socketServer:
+    host: 182.43.208.247
+    port: 9000

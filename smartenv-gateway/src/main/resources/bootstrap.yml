@@ -1,0 +1,49 @@
+server:
+  port: 80
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+    loadbalancer:
+      retry:
+        enabled: true
+
+# 聚合文档配置
+blade:
+  document:
+    resources:
+      - name: 授权模块
+        location: /smartenv-auth
+      - name: 系统模块
+        location: /smartenv-system
+      - name: 工作区域
+        location: /smartenv-workarea
+      - name: 用户模块
+        location: /smartenv-user
+      - name: 告警模块
+        location: /smartenv-alarm
+      - name: 任务模块
+        location: /smartenv-arrange
+      - name: 系统模块
+        location: /smartenv-assessment
+      - name: 通用模块
+        location: /smartenv-omnic
+      - name: 设备模块
+        location: /smartenv-device
+      - name: 事件模块
+        location: /smartenv-event
+      - name: 设施模块
+        location: /smartenv-facility
+      - name: 库存模块
+        location: /smartenv-inventory
+      - name: 静态模块
+        location: /smartenv-statistic
+      - name: 车辆模块
+        location: /smartenv-vehicle
+      - name: 人员模块
+        location: /smartenv-person
+      - name: 流程模块
+        location: /smartenv-flow

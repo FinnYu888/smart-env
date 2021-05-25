@@ -1,0 +1,33 @@
+#mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath:com/ai/apac/smartenv/**/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.ai.apac.smartenv.**.entity
+
+#swagger扫描路径配置
+swagger:
+  base-packages:
+    - org.springbalde
+    - com.ai.apac.smartenv
+spring:
+  cloud:
+    # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
+    stream:
+      bindings:
+        arrange-begin-output: # 当排班中有人上班的时候
+          destination: ARRANGE-SCHEDULE-BEGIN
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+        arrange-end-output: # 当排班中有人下班的时候
+          destination: ARRANGE-SCHEDULE-END
+          content-type: application/json # 内容格式。这里使用 JSON
+          binder: smartenv
+
+
+blade:
+  lock:
+#    mode: single
+#    node-address: redis-sentinel-sentinel-ss:26379
+    enabled: true
+    database: 1
+

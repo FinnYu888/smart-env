@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.statistics.mapper.VehicleWorkStatResultMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="vehicleWorkstatResultResultMap" type="com.ai.apac.smartenv.statistics.entity.VehicleWorkStatResult">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="workarea_level" property="workareaLevel"/>
+        <result column="workarea_acreage" property="workareaAcreage"/>
+        <result column="vehicle_worktype" property="vehicleWorktype"/>
+        <result column="real_work_acreage" property="realWorkAcreage"/>
+        <result column="real_work_perc" property="realWorkPerc"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="stat_date" property="statDate"/>
+    </resultMap>
+
+    <resultMap id="realWorkAcreageResultMap" type="com.ai.apac.smartenv.statistics.vo.RealWorkAcreage">
+        <result column="workarea_level" property="workAreaLevel"/>
+        <result column="total_work_acreage" property="totalRealWorkAcreage"/>
+    </resultMap>
+
+
+    <select id="selectVehicleWorkstatResultPage" resultMap="vehicleWorkstatResultResultMap">
+        select * from bi_vehicle_workstat_result where is_deleted = 0
+    </select>
+
+    <select id="sumRealWorkAcreage" resultMap="realWorkAcreageResultMap">
+        select a.workarea_level,sum(a.real_work_acreage) as total_work_acreage from bi_vehicle_workstat_result a
+        where 1=1
+        <if test="projectList != null and projectList.size() > 0 ">
+            and a.tenant_id in
+            <foreach item="item" index="index" collection="projectList" open="("  close=")" separator=",">
+                #{item}
+            </foreach>
+        </if >
+        <if test="vehicleWorkType != null">
+            and vehicle_worktype = #{vehicleWorkType}
+        </if >
+        GROUP BY a.workarea_level
+        order by a.workarea_level
+    </select>
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.arrange.mapper.ScheduleAttendanceDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="scheduleAttendanceDetailResultMap" type="com.ai.apac.smartenv.arrange.entity.ScheduleAttendanceDetail">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="schedule_attendance_id" property="scheduleAttendanceId"/>
+        <result column="lat" property="lat"/>
+        <result column="lng" property="lng"/>
+        <result column="image_path" property="imagePath"/>
+    </resultMap>
+
+
+    <select id="selectScheduleAttendanceDetailPage" resultMap="scheduleAttendanceDetailResultMap">
+        select * from ai_schedule_attendance_detail where is_deleted = 0
+    </select>
+
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.system.mapper.ProjectMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="projectResultMap" type="com.ai.apac.smartenv.system.entity.Project">
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="project_name" property="projectName"/>
+        <result column="short_name" property="shortName"/>
+        <result column="project_code" property="projectCode"/>
+        <result column="company_id" property="companyId"/>
+        <result column="project_type" property="projectType"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="person_num" property="personNum"/>
+        <result column="device_num" property="deviceNum"/>
+        <result column="vehicle_num" property="vehicleNum"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="map_scale" property="mapScale"/>
+        <result column="city_id" property="cityId"/>
+        <result column="adcode" property="adcode"/>
+        <result column="address" property="address"/>
+        <result column="themeColor" property="themeColor"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <resultMap id="projectVOResultMap" type="com.ai.apac.smartenv.system.vo.ProjectVO">
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="project_name" property="projectName"/>
+        <result column="short_name" property="shortName"/>
+        <result column="project_code" property="projectCode"/>
+        <result column="company_id" property="companyId"/>
+        <result column="project_type" property="projectType"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="person_num" property="personNum"/>
+        <result column="device_num" property="deviceNum"/>
+        <result column="vehicle_num" property="vehicleNum"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="map_scale" property="mapScale"/>
+        <result column="city_id" property="cityId"/>
+        <result column="adcode" property="adcode"/>
+        <result column="address" property="address"/>
+        <result column="theme_color" property="themeColor"/>
+        <result column="remark" property="remark"/>
+        <result column="is_default" property="isDefault"/>
+    </resultMap>
+
+    <select id="listProjectByAccountId" resultMap="projectVOResultMap">
+        select a.id,a.status,a.is_deleted,a.project_name,a.short_name,a.project_code,a.company_id,a.project_type,
+        a.owner_id,a.person_num,a.device_num,a.vehicle_num,a.lng,a.lat,a.map_scale,a.city_id,a.adcode,a.address,a.theme_color,a.remark,b.account_id,b.account,b.is_default
+        from ai_project a
+        right join ai_account_project_rel b on a.project_code = b.project_code
+        where 1=1 and a.is_deleted = 0 and b.is_deleted = 0
+        <if test="accountId != null">
+            and b.account_id = #{accountId}
+        </if>
+        <if test="projectStatus != null">
+            and a.status = #{projectStatus}
+        </if>
+        <if test="cityId != null">
+            and a.city_id = #{cityId}
+        </if>
+        <if test="projectName != null and projectName !=''">
+            and a.project_name like concat('%', #{projectName},'%')
+        </if>
+        <if test="cityIdList != null">
+            and a.city_id in
+            (
+            <foreach collection="cityIdList" item="item" index="index" separator="," >
+                #{item}
+            </foreach>
+            )
+        </if>
+        order by a.update_time desc
+    </select>
+</mapper>

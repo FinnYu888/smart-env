@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.system.mapper.RegionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="regionResultMap" type="com.ai.apac.smartenv.system.entity.Region">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="region_name" property="regionName"/>
+        <result column="parent_region_id" property="parentRegionId"/>
+        <result column="region_level" property="regionLevel"/>
+        <result column="region_type" property="regionType"/>
+        <result column="region_manager" property="regionManager"/>
+        <result column="region_area" property="regionArea"/>
+        <result column="ext1" property="ext1"/>
+        <result column="region_manager_name" property="regionManagerName"/>
+
+    </resultMap>
+
+
+    <select id="selectRegionPage" resultMap="regionResultMap">
+        select * from ai_region where is_deleted = 0
+        <if test="param2.tenantId!=null and param2.tenantId != ''">
+            and tenant_id = #{param2.tenantId}
+        </if>
+    </select>
+
+    <select id="selectRegionList" resultMap="regionResultMap">
+        select * from ai_region where 1 = 1
+    </select>
+
+    <select id="selectRegionListForBS" resultMap="regionResultMap">
+        SELECT
+        *
+        FROM
+        ai_region a
+        <where>
+        ${ew.sqlSegment}
+        AND a.is_deleted = 0
+        AND EXISTS
+        (SELECT
+        1
+        FROM
+        ai_region b
+        WHERE a.parent_region_id = b.id
+        AND b.region_type = 1)
+        </where>
+    </select>
+
+</mapper>

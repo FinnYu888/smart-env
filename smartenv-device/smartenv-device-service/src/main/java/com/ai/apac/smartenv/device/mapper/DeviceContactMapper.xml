@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.device.mapper.DeviceContactMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="deviceContactResultMap" type="com.ai.apac.smartenv.device.entity.DeviceContact">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="device_id" property="deviceId"/>
+        <result column="contact_person_name" property="contactPersonName"/>
+        <result column="contact_person_number" property="contactPersonNumber"/>
+        <result column="contact_person_seq" property="contactPersonSeq"/>
+    </resultMap>
+
+
+    <select id="selectDeviceContactPage" resultMap="deviceContactResultMap">
+        select * from ai_device_contact where is_deleted = 0
+    </select>
+
+</mapper>

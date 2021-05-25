@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.omnic.mapper.QScheduleObjectMapper">
+
+    <resultMap id="QScheduleObjectResultMap" type="com.ai.apac.smartenv.omnic.entity.QScheduleObject">
+        <result column="schedule_id" property="scheduleId"/>
+        <result column="entity_type" property="entityType"/>
+        <result column="entity_id" property="entityId"/>
+        <result column="schedule_begin_date" property="scheduleBeginDate"/>
+        <result column="schedule_end_date" property="scheduleEndDate"/>
+        <result column="plate_number" property="plateNumber"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="vehicle_dept_id" property="vehicleDeptId"/>
+        <result column="vehicle_dept_name" property="vehicleDeptName"/>
+        <result column="person_name" property="personName"/>
+        <result column="job_number" property="jobNumber"/>
+        <result column="person_dept_id" property="personDeptId"/>
+        <result column="person_dept_name" property="personDeptName"/>
+        <result column="schedule_name" property="scheduleName"/>
+        <result column="schedule_monday" property="scheduleMonday"/>
+        <result column="schedule_tuesday" property="scheduleTuesday"/>
+        <result column="schedule_wednesday" property="scheduleWednesday"/>
+        <result column="schedule_thursday" property="scheduleThursday"/>
+        <result column="schedule_friday" property="scheduleFriday"/>
+        <result column="schedule_saturday" property="scheduleSaturday"/>
+        <result column="schedule_sunday" property="scheduleSunday"/>
+        <result column="schedule_begin_time" property="scheduleBeginTime"/>
+        <result column="schedule_end_time" property="scheduleEndTime"/>
+        <result column="breaks_begin_time" property="breaksBeginTime"/>
+        <result column="breaks_end_time" property="breaksEndTime"/>
+    </resultMap>
+
+    <select id="listArrange" resultMap="QScheduleObjectResultMap">
+        SELECT a.*,
+		       b.plate_number,
+		       b.entity_category_id,
+		       b.dept_id AS vehicle_dept_id, 
+		       c.full_name AS vehicle_dept_name,
+		       d.person_name,
+		       d.job_number,
+		       d.person_dept_id,
+		       e.full_name AS person_dept_name,
+		       f.schedule_name,
+		       f.schedule_monday,
+		       f.schedule_tuesday,
+		       f.schedule_wednesday,
+		       f.schedule_thursday,
+		       f.schedule_friday,
+		       f.schedule_saturday,
+		       f.schedule_sunday,
+		       f.schedule_begin_time,
+		       f.schedule_end_time,
+		       f.breaks_begin_time,
+		       f.breaks_end_time
+		FROM (SELECT DISTINCT schedule_id, entity_type, entity_id, schedule_begin_date, schedule_end_date 
+			FROM ai_schedule_object 
+			WHERE is_deleted = 0 and CURDATE() &lt;= schedule_end_date and (temporary = 0 or temporary is null) and schedule_id &lt;&gt; 10
+		<if test="param1.tenantId != null and param1.tenantId != '' ">
+			and tenant_id = #{param1.tenantId}
+	    </if >
+		<if test="param1.scheduleId != null and param1.scheduleId != '' ">
+			and schedule_id = #{param1.scheduleId}
+		</if >
+	    <if test="param1.scheduleBeginDate != null ">
+			and schedule_end_date &gt;= #{param1.scheduleBeginDate}
+	    </if >
+	    <if test="param1.scheduleEndDate != null ">
+			and schedule_begin_date &lt;= #{param1.scheduleEndDate}
+	    </if >
+			) a 
+		LEFT JOIN ai_vehicle_info b ON a.entity_id = b.id AND a.entity_type = 1
+		LEFT JOIN blade_dept c ON b.dept_id = c.id
+		LEFT JOIN ai_person d ON a.entity_id = d.id AND a.entity_type = 2
+		LEFT JOIN blade_dept e ON d.person_dept_id = e.id
+		LEFT JOIN ai_schedule f ON a.schedule_id = f.id
+		where 1 = 1
+		<if test="param1.vehicleDeptIds != null and param1.vehicleDeptIds.size()>0">
+        	and b.dept_id in
+	        <foreach item="item" index="index" collection="param1.vehicleDeptIds" open="("  close=")" separator=",">  
+	          	#{item}   
+	        </foreach>  
+        </if>
+        <if test="param1.personDeptIds != null and param1.personDeptIds.size()>0">
+        	and d.person_dept_id in
+	        <foreach item="item" index="index" collection="param1.personDeptIds" open="("  close=")" separator=",">  
+	          	#{item}   
+	        </foreach>
+        </if>
+	    <if test="param1.personName != null and param1.personName != '' ">
+			and d.person_name like CONCAT('%',#{param1.personName},'%')
+	    </if >
+	    <if test="param1.scheduleName != null and param1.scheduleName != '' ">
+			and f.schedule_name like CONCAT('%',#{param1.scheduleName},'%')
+	    </if >
+	    <if test="param1.scheduleMonday != null and param1.scheduleMonday != '' ">
+			and f.schedule_monday = #{param1.scheduleMonday}
+	    </if >
+	    <if test="param1.scheduleTuesday != null and param1.scheduleTuesday != '' ">
+			and f.schedule_tuesday = #{param1.scheduleTuesday}
+	    </if >
+	    <if test="param1.scheduleWednesday != null and param1.scheduleWednesday != '' ">
+			and f.schedule_wednesday = #{param1.scheduleWednesday}
+	    </if >
+	    <if test="param1.scheduleThursday != null and param1.scheduleThursday != '' ">
+			and f.schedule_thursday = #{param1.scheduleThursday}
+	    </if >
+	    <if test="param1.scheduleFriday != null and param1.scheduleFriday != '' ">
+			and f.schedule_friday = #{param1.scheduleFriday}
+	    </if >
+	    <if test="param1.scheduleSaturday != null and param1.scheduleSaturday != '' ">
+			and f.schedule_saturday = #{param1.scheduleSaturday}
+	    </if >
+	    <if test="param1.scheduleSunday != null and param1.scheduleSunday != '' ">
+			and f.schedule_sunday = #{param1.scheduleSunday}
+	    </if >
+	    <if test="param1.plateNumber != null and param1.plateNumber != '' ">
+			and b.plate_number like CONCAT('%',#{param1.plateNumber},'%')
+	    </if >
+	    <if test="param1.entityType != null and param1.entityType != '' ">
+			and a.entity_type = #{param1.entityType}
+	    </if >
+			ORDER BY a.entity_id ASC, a.schedule_begin_date ASC 
+		<if test="param2 >= 0 and param3 >= 0 ">
+			LIMIT #{param2}, #{param3}
+	    </if >
+    </select>
+
+	<select id="listHistoryArrange" resultMap="QScheduleObjectResultMap">
+        SELECT a.*,
+		       b.plate_number,
+		       b.entity_category_id,
+		       b.dept_id AS vehicle_dept_id, 
+		       c.full_name AS vehicle_dept_name,
+		       d.person_name,
+		       d.job_number,
+		       d.person_dept_id,
+		       e.full_name AS person_dept_name,
+		       f.schedule_name,
+		       f.schedule_monday,
+		       f.schedule_tuesday,
+		       f.schedule_wednesday,
+		       f.schedule_thursday,
+		       f.schedule_friday,
+		       f.schedule_saturday,
+		       f.schedule_sunday,
+		       f.schedule_begin_time,
+		       f.schedule_end_time,
+		       f.breaks_begin_time,
+		       f.breaks_end_time
+		FROM (SELECT DISTINCT schedule_id, entity_type, entity_id, schedule_begin_date, schedule_end_date 
+			FROM ai_schedule_object 
+			WHERE is_deleted = 0 and CURDATE() &gt; schedule_end_date  and (temporary = 0 or temporary is null) and schedule_id &lt;&gt; 10
+		<if test="param1.tenantId != null and param1.tenantId != '' ">
+			and tenant_id = #{param1.tenantId}
+	    </if >
+		<if test="param1.scheduleId != null and param1.scheduleId != '' ">
+			and schedule_id = #{param1.scheduleId}
+		</if >
+	    <if test="param1.scheduleBeginDate != null ">
+			and schedule_end_date &gt;= #{param1.scheduleBeginDate}
+	    </if >
+	    <if test="param1.scheduleEndDate != null ">
+			and schedule_begin_date &lt;= #{param1.scheduleEndDate}
+	    </if >
+			) a 
+		LEFT JOIN ai_vehicle_info b ON a.entity_id = b.id AND a.entity_type = 1
+		LEFT JOIN blade_dept c ON b.dept_id = c.id
+		LEFT JOIN ai_person d ON a.entity_id = d.id AND a.entity_type = 2
+		LEFT JOIN blade_dept e ON d.person_dept_id = e.id
+		LEFT JOIN ai_schedule f ON a.schedule_id = f.id
+		where 1 = 1
+		<if test="param1.vehicleDeptIds != null and param1.vehicleDeptIds.size()>0 and param1.personDeptIds != null and param1.personDeptIds.size()>0">
+			and ( b.dept_id in
+	        <foreach item="item" index="index" collection="param1.vehicleDeptIds" open="("  close=")" separator=",">  
+	          	#{item}   
+	        </foreach>  
+	        	or d.person_dept_id in
+	        <foreach item="item" index="index" collection="param1.personDeptIds" open="("  close=")" separator=",">  
+	          	#{item}   
+	        </foreach>
+			)
+	    </if >
+	    <if test="param1.personName != null and param1.personName != '' and param1.plateNumber != null and param1.plateNumber != '' ">
+			and (d.person_name like CONCAT('%',#{param1.personName},'%') or b.plate_number like CONCAT('%',#{param1.plateNumber},'%'))
+	    </if >
+	    <if test="param1.scheduleName != null and param1.scheduleName != '' ">
+			and f.schedule_name like CONCAT('%',#{param1.scheduleName},'%')
+	    </if >
+	    <if test="param1.scheduleMonday != null and param1.scheduleMonday != '' ">
+			and f.schedule_monday = #{param1.scheduleMonday}
+	    </if >
+	    <if test="param1.scheduleTuesday != null and param1.scheduleTuesday != '' ">
+			and f.schedule_tuesday = #{param1.scheduleTuesday}
+	    </if >
+	    <if test="param1.scheduleWednesday != null and param1.scheduleWednesday != '' ">
+			and f.schedule_wednesday = #{param1.scheduleWednesday}
+	    </if >
+	    <if test="param1.scheduleThursday != null and param1.scheduleThursday != '' ">
+			and f.schedule_thursday = #{param1.scheduleThursday}
+	    </if >
+	    <if test="param1.scheduleFriday != null and param1.scheduleFriday != '' ">
+			and f.schedule_friday = #{param1.scheduleFriday}
+	    </if >
+	    <if test="param1.scheduleSaturday != null and param1.scheduleSaturday != '' ">
+			and f.schedule_saturday = #{param1.scheduleSaturday}
+	    </if >
+	    <if test="param1.scheduleSunday != null and param1.scheduleSunday != '' ">
+			and f.schedule_sunday = #{param1.scheduleSunday}
+	    </if >
+	    <if test="param1.entityType != null and param1.entityType != '' ">
+			and a.entity_type = #{param1.entityType}
+	    </if >
+			ORDER BY a.entity_id ASC, a.schedule_begin_date ASC 
+		<if test="param2 >= 0 and param3 >= 0 ">
+			LIMIT #{param2}, #{param3}
+	    </if >
+    </select>
+    <select id="countArrange" resultType="java.lang.Integer">
+        SELECT count(1)
+		FROM (SELECT DISTINCT schedule_id, entity_type, entity_id, schedule_begin_date, schedule_end_date 
+			FROM ai_schedule_object 
+			WHERE is_deleted = 0 and CURDATE() &lt;= schedule_end_date and (temporary = 0 or temporary is null) and schedule_id &lt;&gt; 10
+		<if test="param1.tenantId != null and param1.tenantId != '' ">
+			and tenant_id = #{param1.tenantId}
+	    </if >
+		<if test="param1.scheduleId != null and param1.scheduleId != '' ">
+			and schedule_id = #{param1.scheduleId}
+		</if >
+	    <if test="param1.scheduleBeginDate != null ">
+			and schedule_end_date &gt;= #{param1.scheduleBeginDate}
+	    </if >
+	    <if test="param1.scheduleEndDate != null ">
+			and schedule_begin_date &lt;= #{param1.scheduleEndDate}
+	    </if >
+			) a 
+		LEFT JOIN ai_vehicle_info b ON a.entity_id = b.id AND a.entity_type = 1
+		LEFT JOIN blade_dept c ON b.dept_id = c.id
+		LEFT JOIN ai_person d ON a.entity_id = d.id AND a.entity_type = 2
+		LEFT JOIN blade_dept e ON d.person_dept_id = e.id
+		LEFT JOIN ai_schedule f ON a.schedule_id = f.id
+		where 1 = 1
+		<if test="param1.vehicleDeptIds != null and param1.vehicleDeptIds.size()>0">
+        	and b.dept_id in
+	        <foreach item="item" index="index" collection="param1.vehicleDeptIds" open="("  close=")" separator=",">  
+	          	#{item}   
+	        </foreach>  
+        </if>
+        <if test="param1.personDeptIds != null and param1.personDeptIds.size()>0">
+        	and d.person_dept_id in
+	        <foreach item="item" index="index" collection="param1.personDeptIds" open="("  close=")" separator=",">  
+	          	#{item}   
+	        </foreach>
+        </if>
+	    <if test="param1.personName != null and param1.personName != '' ">
+			and d.person_name like CONCAT('%',#{param1.personName},'%')
+	    </if >
+	    <if test="param1.scheduleName != null and param1.scheduleName != '' ">
+			and f.schedule_name like CONCAT('%',#{param1.scheduleName},'%')
+	    </if >
+	    <if test="param1.scheduleMonday != null and param1.scheduleMonday != '' ">
+			and f.schedule_monday = #{param1.scheduleMonday}
+	    </if >
+	    <if test="param1.scheduleTuesday != null and param1.scheduleTuesday != '' ">
+			and f.schedule_tuesday = #{param1.scheduleTuesday}
+	    </if >
+	    <if test="param1.scheduleWednesday != null and param1.scheduleWednesday != '' ">
+			and f.schedule_wednesday = #{param1.scheduleWednesday}
+	    </if >
+	    <if test="param1.scheduleThursday != null and param1.scheduleThursday != '' ">
+			and f.schedule_thursday = #{param1.scheduleThursday}
+	    </if >
+	    <if test="param1.scheduleFriday != null and param1.scheduleFriday != '' ">
+			and f.schedule_friday = #{param1.scheduleFriday}
+	    </if >
+	    <if test="param1.scheduleSaturday != null and param1.scheduleSaturday != '' ">
+			and f.schedule_saturday = #{param1.scheduleSaturday}
+	    </if >
+	    <if test="param1.scheduleSunday != null and param1.scheduleSunday != '' ">
+			and f.schedule_sunday = #{param1.scheduleSunday}
+	    </if >
+	    <if test="param1.plateNumber != null and param1.plateNumber != '' ">
+			and b.plate_number like CONCAT('%',#{param1.plateNumber},'%')
+	    </if >
+	    <if test="param1.entityType != null and param1.entityType != '' ">
+			and a.entity_type = #{param1.entityType}
+	    </if >
+    </select>
+
+	<select id="countHistoryArrange" resultType="java.lang.Integer">
+        SELECT count(1)
+		FROM (SELECT DISTINCT schedule_id, entity_type, entity_id, schedule_begin_date, schedule_end_date 
+			FROM ai_schedule_object 
+			WHERE is_deleted = 0 and CURDATE() &gt; schedule_end_date  and (temporary = 0 or temporary is null) and schedule_id &lt;&gt; 10
+		<if test="param1.tenantId != null and param1.tenantId != '' ">
+			and tenant_id = #{param1.tenantId}
+	    </if >
+		<if test="param1.scheduleId != null and param1.scheduleId != '' ">
+			and schedule_id = #{param1.scheduleId}
+		</if >
+	    <if test="param1.scheduleBeginDate != null ">
+			and schedule_end_date &gt;= #{param1.scheduleBeginDate}
+	    </if >
+	    <if test="param1.scheduleEndDate != null ">
+			and schedule_begin_date &lt;= #{param1.scheduleEndDate}
+	    </if >
+			) a 
+		LEFT JOIN ai_vehicle_info b ON a.entity_id = b.id AND a.entity_type = 1
+		LEFT JOIN blade_dept c ON b.dept_id = c.id
+		LEFT JOIN ai_person d ON a.entity_id = d.id AND a.entity_type = 2
+		LEFT JOIN blade_dept e ON d.person_dept_id = e.id
+		LEFT JOIN ai_schedule f ON a.schedule_id = f.id
+		where 1 = 1
+		<if test="param1.vehicleDeptIds != null and param1.vehicleDeptIds.size()>0 and param1.personDeptIds != null and param1.personDeptIds.size()>0">
+			and ( b.dept_id in
+	        <foreach item="item" index="index" collection="param1.vehicleDeptIds" open="("  close=")" separator=",">  
+	          	#{item}   
+	        </foreach>  
+	        	or d.person_dept_id in
+	        <foreach item="item" index="index" collection="param1.personDeptIds" open="("  close=")" separator=",">  
+	          	#{item}   
+	        </foreach>
+			)
+	    </if >
+	    <if test="param1.personName != null and param1.personName != '' and param1.plateNumber != null and param1.plateNumber != '' ">
+			and (d.person_name like CONCAT('%',#{param1.personName},'%') or b.plate_number like CONCAT('%',#{param1.plateNumber},'%'))
+	    </if >
+	    <if test="param1.scheduleName != null and param1.scheduleName != '' ">
+			and f.schedule_name like CONCAT('%',#{param1.scheduleName},'%')
+	    </if >
+	    <if test="param1.scheduleMonday != null and param1.scheduleMonday != '' ">
+			and f.schedule_monday = #{param1.scheduleMonday}
+	    </if >
+	    <if test="param1.scheduleTuesday != null and param1.scheduleTuesday != '' ">
+			and f.schedule_tuesday = #{param1.scheduleTuesday}
+	    </if >
+	    <if test="param1.scheduleWednesday != null and param1.scheduleWednesday != '' ">
+			and f.schedule_wednesday = #{param1.scheduleWednesday}
+	    </if >
+	    <if test="param1.scheduleThursday != null and param1.scheduleThursday != '' ">
+			and f.schedule_thursday = #{param1.scheduleThursday}
+	    </if >
+	    <if test="param1.scheduleFriday != null and param1.scheduleFriday != '' ">
+			and f.schedule_friday = #{param1.scheduleFriday}
+	    </if >
+	    <if test="param1.scheduleSaturday != null and param1.scheduleSaturday != '' ">
+			and f.schedule_saturday = #{param1.scheduleSaturday}
+	    </if >
+	    <if test="param1.scheduleSunday != null and param1.scheduleSunday != '' ">
+			and f.schedule_sunday = #{param1.scheduleSunday}
+	    </if >
+	    <if test="param1.entityType != null and param1.entityType != '' ">
+			and a.entity_type = #{param1.entityType}
+	    </if >
+    </select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.facility.mapper.AshcanInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ashcanInfoResultMap" type="com.ai.apac.smartenv.facility.entity.AshcanInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="ashcan_code" property="ashcanCode"/>
+        <result column="ashcan_type" property="ashcanType"/>
+        <result column="capacity" property="capacity"/>
+        <result column="support_device" property="supportDevice"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="workarea_id" property="workareaId"/>
+        <result column="region_id" property="regionId"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="location" property="location"/>
+        <result column="detail_location" property="detailLocation"/>
+        <result column="company_code" property="companyCode"/>
+        <result column="ashcan_status" property="ashcanStatus"/>
+        <result column="work_status" property="workStatus"/>
+        <result column="ashcan_qr_code" property="ashcanQrCode"/>
+        <result column="device_lng" property="deviceLng"/>
+        <result column="deviceLat" property="deviceLat"/>
+        <result column="device_id" property="deviceId"/>
+    </resultMap>
+
+
+    <select id="selectAshcanInfoPage" resultMap="ashcanInfoResultMap">
+        select * from ai_ashcan_info where is_deleted = 0
+    </select>
+
+</mapper>

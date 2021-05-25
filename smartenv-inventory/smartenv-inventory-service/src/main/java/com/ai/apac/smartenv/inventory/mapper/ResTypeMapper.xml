@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.inventory.mapper.ResTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resTypeResultMap" type="com.ai.apac.smartenv.inventory.entity.ResType">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="parent_type_id" property="parentTypeId"/>
+        <result column="type_name" property="typeName"/>
+        <result column="description" property="description"/>
+
+    </resultMap>
+
+
+    <select id="selectResTypePage" resultMap="resTypeResultMap">
+        select * from ai_res_type where is_deleted = 0
+    </select>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="resTypeSpecResultMap" type="com.ai.apac.smartenv.inventory.entity.ResTypeSpec">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="parent_type_id" property="parentTypeId"/>
+        <result column="type_name" property="typeName"/>
+        <result column="description" property="description"/>
+        <collection property="resSpecs" resultMap="resSpecBeans"/>
+    </resultMap>
+    <resultMap id="resSpecBeans" type="com.ai.apac.smartenv.inventory.entity.ResSpec">
+        <id column="spec_id" property="id"/>
+
+        <result column="spec_name" property="specName"/>
+
+    </resultMap>
+
+
+    <select id="selectResTypeSpec" resultMap="resTypeSpecResultMap">
+        SELECT a.*,b.id spec_Id,b.spec_name FROM ai_res_type a LEFT JOIN ai_res_spec b ON a.id = b.res_type WHERE a.is_deleted = 0 AND b.is_deleted = 0
+    </select>
+</mapper>

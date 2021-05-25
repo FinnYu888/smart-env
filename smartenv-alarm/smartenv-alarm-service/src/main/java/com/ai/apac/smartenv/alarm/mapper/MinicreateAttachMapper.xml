@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.alarm.mapper.MinicreateAttachMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="minicreateAttachResultMap" type="com.ai.apac.smartenv.alarm.entity.MinicreateAttach">
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="id" property="id"/>
+        <result column="uuid" property="uuid"/>
+        <result column="alarm_id" property="alarmId"/>
+        <result column="total" property="total"/>
+        <result column="att_type" property="attType"/>
+        <result column="size" property="size"/>
+        <result column="file_name" property="fileName"/>
+        <result column="file_url" property="fileUrl"/>
+    </resultMap>
+
+
+    <select id="selectMinicreateAttachPage" resultMap="minicreateAttachResultMap">
+        select * from ai_minicreate_attach where is_deleted = 0
+    </select>
+
+</mapper>

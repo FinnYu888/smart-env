@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.person.mapper.PersonMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="personResultMap" type="com.ai.apac.smartenv.person.entity.Person">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="job_number" property="jobNumber"/>
+        <result column="person_name" property="personName"/>
+        <result column="person_dept_id" property="personDeptId"/>
+        <result column="person_position_id" property="personPositionId"/>
+        <result column="mobile_number" property="mobileNumber"/>
+        <result column="wechat_id" property="wechatId"/>
+        <result column="email" property="email"/>
+        <result column="entry_time" property="entryTime"/>
+        <result column="leave_time" property="leaveTime"/>
+        <result column="work_year" property="workYear"/>
+        <result column="image" property="image"/>
+        <result column="gender" property="gender"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="id_card" property="idCard"/>
+        <result column="id_card_type" property="idCardType"/>
+        <result column="birthday" property="birthday"/>
+        <result column="education" property="education"/>
+        <result column="marital_status" property="maritalStatus"/>
+        <result column="is_incumbency" property="isIncumbency"/>
+        <result column="labor_contract" property="laborContract"/>
+        <result column="contract_type" property="contractType"/>
+        <result column="contract_start" property="contractStart"/>
+        <result column="contract_end" property="contractEnd"/>
+        <result column="social_insurance" property="socialInsurance"/>
+        <result column="social_insurance_number" property="socialInsuranceNumber"/>
+        <result column="provident_fund" property="providentFund"/>
+        <result column="provident_fund_number" property="providentFundNumber"/>
+        <result column="political_kind" property="politicalKind"/>
+        <result column="is_user" property="isUser"/>
+        <result column="watch_device_status" property="watchDeviceStatus"/>
+        <result column="id_card_front" property="idCardFront"/>
+        <result column="id_card_back" property="idCardBack"/>
+        <result column="bank_card_front" property="bankCardFront"/>
+        <result column="bank_card_back" property="bankCardBack"/>
+    </resultMap>
+
+    <resultMap id="deptStaffCountResultMap" type="com.ai.apac.smartenv.person.dto.DeptStaffCountDTO">
+        <result column="person_dept_id" property="deptId"/>
+        <result column="count" property="count"/>
+    </resultMap>
+
+    <select id="selectPersonPage" resultMap="personResultMap">
+        select * from ai_person where is_deleted = 0
+    </select>
+
+    <select id="getDeptStaffCount" resultMap="deptStaffCountResultMap">
+        select t.person_dept_id,count(t.id) as count from ai_person t where t.is_deleted = 0 and t.is_incumbency = 1 and t.status = 1
+        <if test="tenantId!=null and tenantId != ''">
+            and t.tenant_id = #{tenantId}
+        </if>
+        GROUP BY t.person_dept_id
+    </select>
+
+    <update id="updatePersonInfoById" parameterType="map">
+	    update ai_person
+	    <set>
+	    	job_number = #{record.jobNumber},
+	        person_name = #{record.personName},
+	        person_dept_id = #{record.personDeptId},
+	        person_position_id = #{record.personPositionId},
+	        mobile_number = #{record.mobileNumber},
+	        wechat_id = #{record.wechatId},
+	        email = #{record.email},
+	        entry_time = #{record.entryTime},
+	        leave_time = #{record.leaveTime},
+	        work_year = #{record.workYear},
+	        image = #{record.image},
+	        gender = #{record.gender},
+	        entity_category_id = #{record.entityCategoryId},
+	        id_card = #{record.idCard},
+	        id_card_type = #{record.idCardType},
+	        birthday = #{record.birthday},
+	        education = #{record.education},
+	        marital_status = #{record.maritalStatus},
+	        is_incumbency = #{record.isIncumbency},
+	        labor_contract = #{record.laborContract},
+	        contract_type = #{record.contractType},
+	        contract_start = #{record.contractStart},
+	        contract_end = #{record.contractEnd},
+	        social_insurance = #{record.socialInsurance},
+	        social_insurance_number = #{record.socialInsuranceNumber},
+	        provident_fund = #{record.providentFund},
+	        provident_fund_number = #{record.providentFundNumber},
+	        political_kind = #{record.politicalKind},
+	        is_user = #{record.isUser},
+	        update_user = #{record.updateUser},
+	        update_time = #{record.updateTime},
+            watch_device_status = #{record.watchDeviceStatus},
+            id_card_front = #{record.idCardFront},
+            id_card_back = #{record.idCardBack},
+            bank_card_front = #{record.bankCardFront},
+            bank_card_back = #{record.bankCardBack}
+	    </set>
+	    where id = #{record.id}
+	  </update>
+
+    <resultMap id="personAccountResultMap" type="com.ai.apac.smartenv.person.vo.PersonAccountVO">
+        <id column="id" property="id"/>
+        <result column="job_number" property="jobNumber"/>
+        <result column="person_name" property="personName"/>
+        <result column="person_dept_id" property="personDeptId"/>
+        <result column="person_position_id" property="personPositionId"/>
+        <result column="mobile_number" property="mobileNumber"/>
+        <result column="wechat_id" property="wechatId"/>
+        <result column="email" property="email"/>
+        <result column="account_id" property="accountId"/>
+        <result column="tenant_id" property="tenantId"/>
+    </resultMap>
+
+    <select id="listPersonAccount" resultMap="personAccountResultMap">
+        select a.id,a.job_number,a.person_name,a.person_dept_id,a.person_position_id,a.mobile_number,a.wechat_id,a.email,a.tenant_id,b.user_id as account_id
+        from ai_person a
+        left join ai_person_user_rel b on a.id = b.person_id
+        where a.is_deleted = 0 and b.is_deleted = 0
+        <if test="personName!=null and personName!=''">
+            and a.person_name like concat('%', #{personName},'%')
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.flow.engine.mapper.FlowTaskPendingMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="flowTaskPendingResultMap" type="com.ai.apac.smartenv.flow.entity.FlowTaskPending">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_user" property="createUser"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="flow_name" property="flowName"/>
+        <result column="task_node" property="taskNode"/>
+        <result column="done_type" property="doneType"/>
+        <result column="done_value" property="doneValue"/>
+        <result column="order_id" property="orderId"/>
+    </resultMap>
+
+
+    <select id="selectFlowTaskPendingPage" resultMap="flowTaskPendingResultMap">
+        select * from ai_flow_task_pending where is_deleted = 0
+    </select>
+    <select id="getFlowTask" resultMap="flowTaskPendingResultMap">
+        select * from ai_flow_task_pending where is_deleted = 0
+        <if test="taskNode != null">
+            and task_Node = #{taskNode}
+        </if>
+        and (
+        <if test="personId != null">
+            (done_type = 1 and done_value  like '%${personId}%') or
+        </if>
+        <if test="postionId != null">
+            (done_type = 2 and done_value  like '%${postionId}%') or
+        </if>
+        <if test="roleIds != null">
+             (
+            <foreach collection="roleIds" item="item" index="index" separator="or">
+                (done_type = 3 and done_value like '%${item}%')
+            </foreach>
+             )
+        </if>
+        )
+    </select>
+    <select id="getTaskDonePermission" resultMap="flowTaskPendingResultMap">
+        select * from ai_flow_task_pending where is_deleted = 0 and status = 1 and  order_id = #{orderId} and  task_node = #{taskNode} and(
+        <if test="personId != null">
+            (done_type = 1 and done_value like '%${personId}%') or
+        </if>
+        <if test="postionId != null">
+            (done_type = 2 and done_value like '%${postionId}%') or
+        </if>
+        <if test="roleIds != null">
+            (
+            <foreach collection="roleIds" item="item" index="index" separator="or">
+                (done_type = 3 and done_value like '%${item}%')
+            </foreach>
+            )
+        </if>
+        )
+    </select>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.event.mapper.EventKpiTplDefMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="eventKpiTplDefResultMap" type="com.ai.apac.smartenv.event.entity.EventKpiTplDef">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="event_kpi_tpl_name" property="eventKpiTplName"/>
+        <result column="positionId" property="position_id"/>
+        <result column="event_kpi_tpl_desc" property="eventKpiTplDesc"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 模板预览查询映射结果 -->
+    <resultMap id="eventKpiTplTResultMap" type="com.ai.apac.smartenv.event.entity.EventKpiTplT">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="event_kpi_catalog" property="eventKpiCatalog"/>
+        <result column="catalog_name" property="catalogName"/>
+        <result column="event_kpi_name" property="eventKpiName"/>
+        <result column="appraisal_criteria" property="appraisalCriteria"/>
+        <result column="threshold" property="threshold"/>
+    </resultMap>
+
+
+    <select id="selectEventKpiTplDefPage" resultMap="eventKpiTplDefResultMap">
+        select * from ai_event_kpi_tpl_def where is_deleted = 0
+    </select>
+
+
+    <select id="listEventKpiTplT" resultMap="eventKpiTplTResultMap">
+    SELECT
+  c.*,
+  d.`catalog_name`,
+  d.`parent_id`
+FROM
+  (SELECT
+    b.`event_kpi_catalog`,
+    b.`event_kpi_name`,
+    b.`appraisal_criteria`,
+    a.`threshold`
+  FROM
+    `ai_event_kpi_tpl_rel` a
+    LEFT JOIN `ai_event_kpi_def` b
+      ON a.`event_kpi_id` = b.`id`
+  WHERE a.event_kpi_tpl_id = #{eventKpiTplId} AND a.`is_deleted` = 0) c
+    LEFT JOIN `ai_event_kpi_catalog` d
+      ON d.`id` = c.event_kpi_catalog
+      ORDER BY c.event_kpi_catalog DESC
+</select>
+
+</mapper>

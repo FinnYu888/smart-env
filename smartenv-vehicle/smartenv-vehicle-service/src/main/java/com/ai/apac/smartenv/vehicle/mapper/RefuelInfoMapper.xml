@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.vehicle.mapper.RefuelInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="refuelInfoResultMap" type="com.ai.apac.smartenv.vehicle.entity.RefuelInfo">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="vehicle_id" property="vehicleId"/>
+        <result column="before_km" property="beforeKm"/>
+        <result column="refuel_time" property="refuelTime"/>
+        <result column="area_id" property="areaId"/>
+        <result column="person_id" property="personId"/>
+        <result column="entity_category_id" property="entityCategoryId"/>
+        <result column="oil_type" property="oilType"/>
+        <result column="per_price" property="perPrice"/>
+        <result column="amount_price" property="amountPrice"/>
+        <result column="oil_volume" property="oilVolume"/>
+        <result column="pic_car_db" property="picCarDb"/>
+        <result column="pic_gas_bd" property="picGasBd"/>
+        <result column="pic_receipt" property="picReceipt"/>
+        <result column="pic_backup" property="picBackup"/>
+    </resultMap>
+
+
+    <select id="selectRefuelInfoPage" resultMap="refuelInfoResultMap">
+        select * from ai_refuel_info where is_deleted = 0
+    </select>
+
+</mapper>

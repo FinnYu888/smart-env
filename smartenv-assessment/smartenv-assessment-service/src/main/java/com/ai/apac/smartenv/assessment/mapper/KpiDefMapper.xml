@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.assessment.mapper.KpiDefMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="kpiDefResultMap" type="com.ai.apac.smartenv.assessment.entity.KpiDef">
+        <id column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="kpi_catalog" property="kpiCatalog"/>
+        <result column="kpi_name" property="kpiName"/>
+        <result column="kpi_remark" property="kpiRemark"/>
+        <result column="kpi_description" property="kpiDescription"/>
+        <result column="appraisal_criteria" property="appraisalCriteria"/>
+        <result column="weighting" property="weighting"/>
+        <result column="score_type" property="scoreType"/>
+    </resultMap>
+
+
+    <select id="selectKpiDefPage" resultMap="kpiDefResultMap">
+        select * from ai_kpi_def where is_deleted = 0
+    </select>
+
+</mapper>

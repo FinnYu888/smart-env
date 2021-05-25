@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.apac.smartenv.system.mapper.RegionExpMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="regionExpResultMap" type="com.ai.apac.smartenv.system.entity.RegionExp">
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_dept" property="createDept"/>
+        <result column="id" property="id"/>
+        <result column="region_name" property="regionName"/>
+        <result column="parent_region_id" property="parentRegionId"/>
+        <result column="region_level" property="regionLevel"/>
+        <result column="region_type" property="regionType"/>
+        <result column="region_manager" property="regionManager"/>
+        <result column="region_area" property="regionArea"/>
+        <result column="ext1" property="ext1"/>
+        <result column="region_manager_name" property="regionManagerName"/>
+    </resultMap>
+
+
+    <select id="selectRegionExpPage" resultMap="regionExpResultMap">
+        select * from ai_region_exp where is_deleted = 0
+    </select>
+
+</mapper>
